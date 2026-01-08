@@ -1,5 +1,3 @@
-/* --- script.js --- */
-
 // --- CONFIGURAÇÕES ---
 const SKILLS_MAP = {
     'atletismo': 'str', 'acrobacia': 'dex', 'furtividade': 'dex', 'prestidigitacao': 'dex',
@@ -580,7 +578,7 @@ function loadData() {
     // ATUALIZA TÍTULO DA PÁGINA
     const nameVal = document.getElementById('charName').value;
     document.getElementById('page-title').innerText = nameVal || 'Ficha de Personagem';
-    
+
     if(data.checks) {
         for (const [key, value] of Object.entries(data.checks)) {
             const el = document.getElementById(key);
