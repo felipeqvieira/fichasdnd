@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha D&D 5e - Completa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-top">
+            <h2>Ficha de Personagem</h2>
+            
+            <div class="header-actions">
+                <div class="mode-switch-container">
+                    <span class="mode-label">Editar</span>
+                    <label class="switch">
+                        <input type="checkbox" id="modeToggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="mode-label">Leitura</span>
+                </div>
+
+                <div class="separator-vertical"></div>
+
+                <div class="file-actions">
+                    <input type="file" id="importFile" accept=".json,.txt" class="hidden">
+                    <button class="btn btn-outline" id="btnImport">📂 Carregar</button>
+                    <button class="btn" id="btnExport">💾 Salvar</button>
+                    <button class="btn btn-danger" id="btnReset">🗑️ Resetar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-grid">
+            <div class="header-item">
+                <label>Nome do Personagem</label>
+                <input type="text" id="charName" placeholder="Ex: Gandalf">
+            </div>
+            <div class="header-item">
+                <label>Classe & Nível</label>
+                <input type="text" id="charClass" placeholder="Ex: Mago 5">
+            </div>
+            <div class="header-item">
+                <label>Raça</label>
+                <input type="text" id="charRace" placeholder="Ex: Elfo">
+            </div>
+            <div class="header-item">
+                <label>Antecedente</label>
+                <input type="text" id="charBackground" placeholder="Ex: Sábio">
+            </div>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab-btn active" data-tab="main">Status</button>
+        <button class="tab-btn" data-tab="combat">Combate</button>
+        <button class="tab-btn" data-tab="abilities">Características</button> <button class="tab-btn" data-tab="spells">Magias</button> <button class="tab-btn" data-tab="inventory">Inventário</button>
+        <button class="tab-btn" data-tab="notes">Anotações</button>
+    </nav>
+
+    <section id="main" class="tab-content">
+        <div class="main-layout">
+            <div class="left-column">
+                <h3>Atributos Base</h3>
+                <div class="grid-attrs">
+                    <div class="attr-box"><div class="attr-label">Força</div><div class="attr-mod" id="mod-str">+0</div><input type="number" id="attr-str" value="10" class="attr-input"></div>
+                    <div class="attr-box"><div class="attr-label">Destreza</div><div class="attr-mod" id="mod-dex">+0</div><input type="number" id="attr-dex" value="10" class="attr-input"></div>
+                    <div class="attr-box"><div class="attr-label">Constituição</div><div class="attr-mod" id="mod-con">+0</div><input type="number" id="attr-con" value="10" class="attr-input"></div>
+                    <div class="attr-box"><div class="attr-label">Inteligência</div><div class="attr-mod" id="mod-int">+0</div><input type="number" id="attr-int" value="10" class="attr-input"></div>
+                    <div class="attr-box"><div class="attr-label">Sabedoria</div><div class="attr-mod" id="mod-wis">+0</div><input type="number" id="attr-wis" value="10" class="attr-input"></div>
+                    <div class="attr-box"><div class="attr-label">Carisma</div><div class="attr-mod" id="mod-cha">+0</div><input type="number" id="attr-cha" value="10" class="attr-input"></div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="card"><label>Classe de Armadura</label><input type="number" id="ac" value="10"></div>
+                    <div class="card"><label>Iniciativa</label><input type="number" id="initiative" value="0"></div>
+                    <div class="card"><label>Deslocamento</label><input type="text" id="speed" value="9m"></div>
+                    <div class="card"><label>Proficiência</label><input type="number" id="profBonus" value="2"></div>
+                </div>
+
+                <div class="card">
+                    <h3>Sentidos Passivos</h3>
+                    <div class="flex-row">
+                        <div class="flex-1">Percepção: <strong id="passive-perception">10</strong></div>
+                        <div class="flex-1">Investigação: <strong id="passive-investigation">10</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column skills-panel">
+                <div class="skills-header">
+                    <button class="sub-tab-btn active" id="btn-view-skills" onclick="toggleSkills('skills')">Perícias</button>
+                    <button class="sub-tab-btn" id="btn-view-saves" onclick="toggleSkills('saves')">Salvaguardas</button>
+                </div>
+
+                <div id="view-skills" class="skills-list">
+                    <div class="skill-row"><input type="checkbox" id="skill-atletismo"><span class="skill-val" id="val-atletismo">+0</span><span class="skill-name">Atletismo <small>(For)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-acrobacia"><span class="skill-val" id="val-acrobacia">+0</span><span class="skill-name">Acrobacia <small>(Des)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-furtividade"><span class="skill-val" id="val-furtividade">+0</span><span class="skill-name">Furtividade <small>(Des)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-prestidigitacao"><span class="skill-val" id="val-prestidigitacao">+0</span><span class="skill-name">Prestidigitação <small>(Des)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-arcanismo"><span class="skill-val" id="val-arcanismo">+0</span><span class="skill-name">Arcanismo <small>(Int)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-historia"><span class="skill-val" id="val-historia">+0</span><span class="skill-name">História <small>(Int)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-investigacao"><span class="skill-val" id="val-investigacao">+0</span><span class="skill-name">Investigação <small>(Int)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-natureza"><span class="skill-val" id="val-natureza">+0</span><span class="skill-name">Natureza <small>(Int)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-religiao"><span class="skill-val" id="val-religiao">+0</span><span class="skill-name">Religião <small>(Int)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-lidar-animais"><span class="skill-val" id="val-lidar-animais">+0</span><span class="skill-name">Lidar com Animais <small>(Sab)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-intuicao"><span class="skill-val" id="val-intuicao">+0</span><span class="skill-name">Intuição <small>(Sab)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-medicina"><span class="skill-val" id="val-medicina">+0</span><span class="skill-name">Medicina <small>(Sab)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-percepcao"><span class="skill-val" id="val-percepcao">+0</span><span class="skill-name">Percepção <small>(Sab)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-sobrevivencia"><span class="skill-val" id="val-sobrevivencia">+0</span><span class="skill-name">Sobrevivência <small>(Sab)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-atuacao"><span class="skill-val" id="val-atuacao">+0</span><span class="skill-name">Atuação <small>(Car)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-enganacao"><span class="skill-val" id="val-enganacao">+0</span><span class="skill-name">Enganação <small>(Car)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-intimidacao"><span class="skill-val" id="val-intimidacao">+0</span><span class="skill-name">Intimidação <small>(Car)</small></span></div>
+                    <div class="skill-row"><input type="checkbox" id="skill-persuasao"><span class="skill-val" id="val-persuasao">+0</span><span class="skill-name">Persuasão <small>(Car)</small></span></div>
+                </div>
+
+                <div id="view-saves" class="skills-list hidden">
+                    <p style="font-size:0.85em; color:var(--text-muted); margin:0 0 10px 0;">Marque a caixa se tiver proficiência.</p>
+                    <div class="skill-row"><input type="checkbox" id="save-str"><span class="skill-val" id="val-save-str">+0</span><span class="skill-name">Força</span></div>
+                    <div class="skill-row"><input type="checkbox" id="save-dex"><span class="skill-val" id="val-save-dex">+0</span><span class="skill-name">Destreza</span></div>
+                    <div class="skill-row"><input type="checkbox" id="save-con"><span class="skill-val" id="val-save-con">+0</span><span class="skill-name">Constituição</span></div>
+                    <div class="skill-row"><input type="checkbox" id="save-int"><span class="skill-val" id="val-save-int">+0</span><span class="skill-name">Inteligência</span></div>
+                    <div class="skill-row"><input type="checkbox" id="save-wis"><span class="skill-val" id="val-save-wis">+0</span><span class="skill-name">Sabedoria</span></div>
+                    <div class="skill-row"><input type="checkbox" id="save-cha"><span class="skill-val" id="val-save-cha">+0</span><span class="skill-name">Carisma</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="combat" class="tab-content hidden">
+        <div class="card border-danger">
+            <h3>Pontos de Vida (PV)</h3>
+            <div class="hp-wrapper">
+                <div class="hp-input-group"><label>Atual</label><input type="number" id="hp-current" value="10"></div>
+                <div class="hp-divider">/</div>
+                <div class="hp-input-group"><label>Máximo</label><input type="number" id="hp-max" value="10"></div>
+            </div>
+            <div class="health-bar-bg"><div class="health-bar-fill" id="hp-bar"></div></div>
+            <div class="hp-controls">
+                <div><button class="btn btn-danger btn-small" data-hp-mod="-1">-1</button><button class="btn btn-danger btn-small" data-hp-mod="-5">-5</button></div>
+                <span class="text-muted">Dano / Cura</span>
+                <div><button class="btn btn-success btn-small" data-hp-mod="1">+1</button><button class="btn btn-success btn-small" data-hp-mod="5">+5</button></div>
+            </div>
+            <div class="temp-hp-box"><label>PV Temporário</label><input type="number" id="hp-temp" value="0"></div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Ataques & Armas</h3>
+                <button class="btn btn-small" id="btnAddAttack">+ Arma</button>
+            </div>
+            <div id="attacks-list" class="dynamic-list"></div>
+        </div>
+    </section>
+
+    <section id="abilities" class="tab-content hidden">
+        <div class="card">
+            <div class="card-header">
+                <h3>Recursos (Ki, Fúria, Slots)</h3>
+                <button class="btn btn-small" id="btnAddResource">+ Recurso</button>
+            </div>
+            <div id="resources-list" class="dynamic-list"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Talentos & Características</h3>
+                <button class="btn btn-small" id="btnAddFeature">+ Característica</button>
+            </div>
+            <div class="filter-toolbar">
+                <input type="text" id="featureSearch" placeholder="🔍 Buscar talento..." class="search-input">
+                <select id="featureFilter" class="filter-select">
+                    <option value="all">Todas</option>
+                    <option value="Classe">Classe</option>
+                    <option value="Raça">Raça</option>
+                    <option value="Talento">Talento</option>
+                    <option value="Maestria">Maestria</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+            <div id="features-list" class="dynamic-list"></div>
+        </div>
+    </section>
+
+    <section id="spells" class="tab-content hidden">
+        <div class="card">
+            <div class="card-header">
+                <h3>Grimório / Magias</h3>
+                <button class="btn btn-small" id="btnAddSpell">+ Magia</button>
+            </div>
+            <div class="filter-toolbar">
+                <input type="text" id="spellSearch" placeholder="🔍 Buscar magia..." class="search-input">
+                <select id="spellFilter" class="filter-select">
+                    <option value="all">Todos os Círculos</option>
+                    <option value="Truque">Truques</option>
+                    <option value="1º Círculo">1º Círculo</option>
+                    <option value="2º Círculo">2º Círculo</option>
+                    <option value="3º Círculo">3º Círculo</option>
+                    <option value="4º Círculo">4º Círculo</option>
+                    <option value="5º Círculo">5º Círculo</option>
+                    <option value="6º Círculo">6º Círculo</option>
+                    <option value="7º Círculo">7º Círculo</option>
+                    <option value="8º Círculo">8º Círculo</option>
+                    <option value="9º Círculo">9º Círculo</option>
+                </select>
+            </div>
+            <div id="spells-list" class="dynamic-list"></div>
+        </div>
+    </section>
+
+    <section id="inventory" class="tab-content hidden">
+        <div class="card">
+            <div class="card-header">
+                <h3>Equipamento</h3>
+                <button class="btn btn-small" id="btnAddItem">+ Item</button>
+            </div>
+            <div class="filter-toolbar">
+                <input type="text" id="inventorySearch" placeholder="🔍 Buscar item..." class="search-input">
+                <select id="inventoryFilter" class="filter-select">
+                    <option value="all">Todos os Tipos</option>
+                    <option value="Geral">Geral</option>
+                    <option value="Arma">Arma</option>
+                    <option value="Armadura">Armadura</option>
+                    <option value="Poção">Poção</option>
+                    <option value="Item Mágico">Item Mágico</option>
+                    <option value="Ferramenta">Ferramenta</option>
+                    <option value="Tesouro">Tesouro</option>
+                </select>
+            </div>
+            <div class="inventory-header">
+                <div class="qty-col">Qtd</div>
+                <div class="name-col">Nome / Categoria</div>
+                <div class="action-col"></div>
+            </div>
+            <div id="inventory-list" class="dynamic-list"></div>
+        </div>
+        <div class="card">
+            <label>Dinheiro</label>
+            <textarea id="currency" rows="2" placeholder="Ex: 15 PO"></textarea>
+        </div>
+    </section>
+
+    <section id="notes" class="tab-content hidden">
+        <div class="card">
+            <h3>Anotações</h3>
+            <textarea id="general-notes" rows="15"></textarea>
+        </div>
+    </section>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
