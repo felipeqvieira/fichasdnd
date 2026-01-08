@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha D&D 5e - Completa</title>
+    <title>Ficha D&D 5e</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,6 +25,8 @@
 
                 <div class="separator-vertical"></div>
 
+                <button class="btn btn-outline" id="btnLongRest" title="Recuperar Vida, Magias e Recursos">🌙 Descanso</button>
+
                 <div class="file-actions">
                     <input type="file" id="importFile" accept=".json,.txt" class="hidden">
                     <button class="btn btn-outline" id="btnImport">📂 Carregar</button>
@@ -35,7 +37,6 @@
         </div>
 
         <div class="header-content">
-            
             <div class="avatar-section">
                 <div class="avatar-circle" onclick="document.getElementById('avatar-upload').click()">
                     <img id="char-avatar-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23555'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E">
@@ -68,7 +69,9 @@
     <nav class="tabs">
         <button class="tab-btn active" data-tab="main">Status</button>
         <button class="tab-btn" data-tab="combat">Combate</button>
-        <button class="tab-btn" data-tab="abilities">Características</button> <button class="tab-btn" data-tab="spells">Magias</button> <button class="tab-btn" data-tab="inventory">Inventário</button>
+        <button class="tab-btn" data-tab="abilities">Habilidades</button>
+        <button class="tab-btn" data-tab="spells">Magias</button>
+        <button class="tab-btn" data-tab="inventory">Inventário</button>
         <button class="tab-btn" data-tab="notes">Anotações</button>
     </nav>
 
@@ -95,6 +98,19 @@
                 </div>
 
                 <div class="card">
+                    <h3>Exaustão</h3>
+                    <div class="exhaustion-box">
+                        <div class="exhaustion-control">
+                            <button class="btn-circle" onclick="modExhaustion(-1)">-</button>
+                            <span id="exhaustion-val">0</span>
+                            <button class="btn-circle" onclick="modExhaustion(1)">+</button>
+                        </div>
+                        <input type="hidden" id="exhaustion-level" value="0">
+                        <small id="exhaustion-desc" style="color:var(--text-muted); font-size:0.75rem; min-height:1.2rem; display:block; margin-top:5px;">Normal</small>
+                    </div>
+                </div>
+
+                <div class="card">
                     <h3>Sentidos Passivos</h3>
                     <div class="flex-row">
                         <div class="flex-1">Percepção: <strong id="passive-perception">10</strong></div>
@@ -103,45 +119,29 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header-slim">
-                        <h3>Sentidos</h3>
-                        <button class="btn-icon" onclick="openModal('modal-senses')">⚙️</button>
-                    </div>
-                    <div id="display-senses" class="tags-list"><span class="empty-msg">Nenhum sentido especial.</span></div>
+                    <div class="card-header-slim"><h3>Sentidos</h3><button class="btn-icon" onclick="openModal('modal-senses')">⚙️</button></div>
+                    <div id="display-senses" class="tags-list"><span class="empty-msg">Nenhum.</span></div>
                 </div>
 
                 <div class="card">
-                    <div class="card-header-slim">
-                        <h3>Condições Ativas</h3>
-                        <button class="btn-icon" onclick="openModal('modal-conditions')">⚙️</button>
-                    </div>
+                    <div class="card-header-slim"><h3>Condições Ativas</h3><button class="btn-icon" onclick="openModal('modal-conditions')">⚙️</button></div>
                     <div id="display-conditions" class="tags-list"><span class="empty-msg">Normal.</span></div>
                 </div>
 
                 <div class="card">
-                    <div class="card-header-slim">
-                        <h3>Prof. Armaduras</h3>
-                        <button class="btn-icon" onclick="openModal('modal-armors')">⚙️</button>
-                    </div>
+                    <div class="card-header-slim"><h3>Prof. Armaduras</h3><button class="btn-icon" onclick="openModal('modal-armors')">⚙️</button></div>
                     <div id="display-armors" class="tags-list"><span class="empty-msg">Nenhuma.</span></div>
                 </div>
 
                 <div class="card">
-                    <div class="card-header-slim">
-                        <h3>Prof. Armas</h3>
-                        <button class="btn-icon" onclick="openModal('modal-weapons')">⚙️</button>
-                    </div>
+                    <div class="card-header-slim"><h3>Prof. Armas</h3><button class="btn-icon" onclick="openModal('modal-weapons')">⚙️</button></div>
                     <div id="display-weapons" class="tags-list"><span class="empty-msg">Nenhuma.</span></div>
                 </div>
 
                 <div class="card">
-                    <div class="card-header-slim">
-                        <h3>Idiomas</h3>
-                        <button class="btn-icon" onclick="openModal('modal-languages')">⚙️</button>
-                    </div>
+                    <div class="card-header-slim"><h3>Idiomas</h3><button class="btn-icon" onclick="openModal('modal-languages')">⚙️</button></div>
                     <div id="display-languages" class="tags-list"><span class="empty-msg">Nenhum.</span></div>
                 </div>
-
             </div>
 
             <div class="right-column skills-panel">
@@ -173,6 +173,10 @@
                         <div class="skill-row" data-skill="persuasao"><span class="skill-check" id="skill-persuasao"></span><span class="skill-val" id="val-persuasao">+0</span><span class="skill-name">Persuasão <small>(Car)</small></span></div>
 
                         <div class="jack-container">
+                            <div class="footer-tools-left">
+                                <button class="btn-icon-small" onclick="openModal('modal-global-skills')" title="Configurar Bônus Global">⚙️</button>
+                                <span class="global-badge" id="lbl-global-skill" style="display:none">Global: +0</span>
+                            </div>
                             <label class="jack-label"><input type="checkbox" id="jack-of-all-trades"><span>Pau pra Toda Obra (+½ Prof)</span></label>
                         </div>
                     </div>
@@ -185,78 +189,96 @@
                         <div class="skill-row"><input type="checkbox" id="save-int"><span class="skill-val" id="val-save-int">+0</span><span class="skill-name">Inteligência</span></div>
                         <div class="skill-row"><input type="checkbox" id="save-wis"><span class="skill-val" id="val-save-wis">+0</span><span class="skill-name">Sabedoria</span></div>
                         <div class="skill-row"><input type="checkbox" id="save-cha"><span class="skill-val" id="val-save-cha">+0</span><span class="skill-name">Carisma</span></div>
+
+                        <div class="saves-footer">
+                            <div class="footer-tools-left">
+                                <button class="btn-icon-small" onclick="openModal('modal-global-saves')" title="Configurar Bônus Global">⚙️</button>
+                                <span class="global-badge" id="lbl-global-save" style="display:none">Global: +0</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header-slim">
-                        <h3>Resistências</h3>
-                        <button class="btn-icon" onclick="openModal('modal-resistances')">⚙️</button>
-                    </div>
-                    <div id="display-resistances" class="tags-list"><span class="empty-msg">Nenhuma resistência.</span></div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header-slim">
-                        <h3>Vulnerabilidades</h3>
-                        <button class="btn-icon" onclick="openModal('modal-vulnerabilities')">⚙️</button>
-                    </div>
-                    <div id="display-vulnerabilities" class="tags-list"><span class="empty-msg">Nenhuma vulnerabilidade.</span></div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header-slim">
-                        <h3>Imunidades</h3>
-                        <button class="btn-icon" onclick="openModal('modal-immunities')">⚙️</button>
-                    </div>
-                    <div id="display-immunities" class="tags-list"><span class="empty-msg">Nenhuma imunidade.</span></div>
-                </div>
-
+                <div class="card"><div class="card-header-slim"><h3>Resistências</h3><button class="btn-icon" onclick="openModal('modal-resistances')">⚙️</button></div><div id="display-resistances" class="tags-list"><span class="empty-msg">Nenhuma resistência.</span></div></div>
+                <div class="card"><div class="card-header-slim"><h3>Vulnerabilidades</h3><button class="btn-icon" onclick="openModal('modal-vulnerabilities')">⚙️</button></div><div id="display-vulnerabilities" class="tags-list"><span class="empty-msg">Nenhuma vulnerabilidade.</span></div></div>
+                <div class="card"><div class="card-header-slim"><h3>Imunidades</h3><button class="btn-icon" onclick="openModal('modal-immunities')">⚙️</button></div><div id="display-immunities" class="tags-list"><span class="empty-msg">Nenhuma imunidade.</span></div></div>
             </div>
         </div>
     </section>
 
     <section id="combat" class="tab-content hidden">
-        <div class="card border-danger">
-            <h3>Pontos de Vida (PV)</h3>
-            <div class="hp-wrapper">
-                <div class="hp-input-group"><label>Atual</label><input type="number" id="hp-current" value="10"></div>
-                <div class="hp-divider">/</div>
-                <div class="hp-input-group"><label>Máximo</label><input type="number" id="hp-max" value="10"></div>
+        <div class="main-layout">
+            <div class="left-column">
+                
+                <div class="card border-danger">
+                    <h3>Pontos de Vida (PV)</h3>
+                    <div class="hp-wrapper">
+                        <div class="hp-input-group"><label>Atual</label><input type="number" id="hp-current" value="10"></div>
+                        <div class="hp-divider">/</div>
+                        <div class="hp-input-group"><label>Máximo</label><input type="number" id="hp-max" value="10"></div>
+                    </div>
+                    <div class="health-bar-bg"><div class="health-bar-fill" id="hp-bar"></div></div>
+                    <div class="hp-controls">
+                        <div>
+                            <button class="btn btn-danger btn-small" data-hp-mod="-1">-1</button>
+                            <button class="btn btn-danger btn-small" data-hp-mod="-5">-5</button>
+                        </div>
+                        
+                        <button class="btn btn-outline btn-small" onclick="fullHeal()" title="Curar totalmente">❤️ Total</button>
+
+                        <div>
+                            <button class="btn btn-success btn-small" data-hp-mod="1">+1</button>
+                            <button class="btn btn-success btn-small" data-hp-mod="5">+5</button>
+                        </div>
+                    </div>
+                    <div class="temp-hp-box"><label>PV Temporário</label><input type="number" id="hp-temp" value="0"></div>
+                </div>
+
+                <div class="card" style="border: 1px solid #cf6679;">
+                    <h3 style="color:#cf6679;">💀 Testes de Morte</h3>
+                    <div class="death-saves-box">
+                        <div class="death-row">
+                            <span>Sucessos</span>
+                            <div class="checks">
+                                <input type="checkbox" id="death-s1"><input type="checkbox" id="death-s2"><input type="checkbox" id="death-s3">
+                            </div>
+                        </div>
+                        <div class="death-row">
+                            <span>Falhas</span>
+                            <div class="checks">
+                                <input type="checkbox" id="death-f1"><input type="checkbox" id="death-f2"><input type="checkbox" id="death-f3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dynamic-list" id="attacks-list">
+                    <div class="list-header" style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <h3>Ataques & Armas</h3>
+                        <button class="btn btn-small" id="btnAddAttack">+ Arma</button>
+                    </div>
+                </div>
             </div>
-            <div class="health-bar-bg"><div class="health-bar-fill" id="hp-bar"></div></div>
-            <div class="hp-controls">
-                <div><button class="btn btn-danger btn-small" data-hp-mod="-1">-1</button><button class="btn btn-danger btn-small" data-hp-mod="-5">-5</button></div>
-                <span class="text-muted">Dano / Cura</span>
-                <div><button class="btn btn-success btn-small" data-hp-mod="1">+1</button><button class="btn btn-success btn-small" data-hp-mod="5">+5</button></div>
+
+            <div class="right-column">
+                <div class="dynamic-list" id="resources-list">
+                    <div class="list-header" style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <h3>Recursos & Munição</h3>
+                        <button class="btn btn-small" id="btnAddResource">+ Add</button>
+                    </div>
+                </div>
             </div>
-            <div class="temp-hp-box"><label>PV Temporário</label><input type="number" id="hp-temp" value="0"></div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <h3>Ataques & Armas</h3>
-                <button class="btn btn-small" id="btnAddAttack">+ Arma</button>
-            </div>
-            <div id="attacks-list" class="dynamic-list"></div>
         </div>
     </section>
 
     <section id="abilities" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
-                <h3>Recursos (Ki, Fúria, Slots)</h3>
-                <button class="btn btn-small" id="btnAddResource">+ Recurso</button>
-            </div>
-            <div id="resources-list" class="dynamic-list"></div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
                 <h3>Talentos & Características</h3>
                 <button class="btn btn-small" id="btnAddFeature">+ Característica</button>
             </div>
             <div class="filter-toolbar">
-                <input type="text" id="featureSearch" placeholder="🔍 Buscar talento..." class="search-input">
+                <input type="text" id="featureSearch" placeholder="🔍 Buscar..." class="search-input">
                 <select id="featureFilter" class="filter-select">
                     <option value="all">Todas</option>
                     <option value="Classe">Classe</option>
@@ -271,15 +293,64 @@
     </section>
 
     <section id="spells" class="tab-content hidden">
+        <div class="card spell-slots-card">
+            <div class="card-header-slim">
+                <h3>Espaços de Magia (Slots)</h3>
+            </div>
+            
+            <div class="magic-dashboard">
+                <div class="magic-chip">
+                    <span class="magic-level">1º</span>
+                    <div class="magic-val"><input type="number" id="slot-1-curr" placeholder="0"><span>/</span><input type="number" id="slot-1-max" placeholder="0"></div>
+                </div>
+                <div class="magic-chip">
+                    <span class="magic-level">2º</span>
+                    <div class="magic-val"><input type="number" id="slot-2-curr" placeholder="0"><span>/</span><input type="number" id="slot-2-max" placeholder="0"></div>
+                </div>
+                <div class="magic-chip">
+                    <span class="magic-level">3º</span>
+                    <div class="magic-val"><input type="number" id="slot-3-curr" placeholder="0"><span>/</span><input type="number" id="slot-3-max" placeholder="0"></div>
+                </div>
+                <div class="magic-chip">
+                    <span class="magic-level">4º</span>
+                    <div class="magic-val"><input type="number" id="slot-4-curr" placeholder="0"><span>/</span><input type="number" id="slot-4-max" placeholder="0"></div>
+                </div>
+                <div class="magic-chip">
+                    <span class="magic-level">5º</span>
+                    <div class="magic-val"><input type="number" id="slot-5-curr" placeholder="0"><span>/</span><input type="number" id="slot-5-max" placeholder="0"></div>
+                </div>
+
+                <div class="magic-chip">
+                    <span class="magic-level">6º</span>
+                    <div class="magic-val"><input type="number" id="slot-6-curr" placeholder="0"><span>/</span><input type="number" id="slot-6-max" placeholder="0"></div>
+                </div>
+                <div class="magic-chip">
+                    <span class="magic-level">7º</span>
+                    <div class="magic-val"><input type="number" id="slot-7-curr" placeholder="0"><span>/</span><input type="number" id="slot-7-max" placeholder="0"></div>
+                </div>
+                <div class="magic-chip">
+                    <span class="magic-level">8º</span>
+                    <div class="magic-val"><input type="number" id="slot-8-curr" placeholder="0"><span>/</span><input type="number" id="slot-8-max" placeholder="0"></div>
+                </div>
+                <div class="magic-chip">
+                    <span class="magic-level">9º</span>
+                    <div class="magic-val"><input type="number" id="slot-9-curr" placeholder="0"><span>/</span><input type="number" id="slot-9-max" placeholder="0"></div>
+                </div>
+                <div class="magic-chip pact-chip">
+                    <span class="magic-level">P</span> <div class="magic-val"><input type="number" id="slot-pact-curr" placeholder="0"><span>/</span><input type="number" id="slot-pact-max" placeholder="0"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-header">
-                <h3>Grimório / Magias</h3>
+                <h3>Grimório</h3>
                 <button class="btn btn-small" id="btnAddSpell">+ Magia</button>
             </div>
             <div class="filter-toolbar">
-                <input type="text" id="spellSearch" placeholder="🔍 Buscar magia..." class="search-input">
+                <input type="text" id="spellSearch" placeholder="🔍 Buscar..." class="search-input">
                 <select id="spellFilter" class="filter-select">
-                    <option value="all">Todos os Círculos</option>
+                    <option value="all">Todos</option>
                     <option value="Truque">Truques</option>
                     <option value="1º Círculo">1º Círculo</option>
                     <option value="2º Círculo">2º Círculo</option>
@@ -303,15 +374,14 @@
                 <button class="btn btn-small" id="btnAddItem">+ Item</button>
             </div>
             <div class="filter-toolbar">
-                <input type="text" id="inventorySearch" placeholder="🔍 Buscar item..." class="search-input">
+                <input type="text" id="inventorySearch" placeholder="🔍 Buscar..." class="search-input">
                 <select id="inventoryFilter" class="filter-select">
-                    <option value="all">Todos os Tipos</option>
+                    <option value="all">Todos</option>
                     <option value="Geral">Geral</option>
                     <option value="Arma">Arma</option>
                     <option value="Armadura">Armadura</option>
                     <option value="Poção">Poção</option>
                     <option value="Item Mágico">Item Mágico</option>
-                    <option value="Ferramenta">Ferramenta</option>
                     <option value="Tesouro">Tesouro</option>
                 </select>
             </div>
@@ -336,47 +406,40 @@
     </section>
 </div>
 
+<div id="modal-global-skills" class="modal-overlay hidden" onclick="closeModal(event, 'modal-global-skills')">
+    <div class="modal-content" style="max-width:300px" onclick="event.stopPropagation()">
+        <div class="modal-header"><h3>Bônus Global (Perícias)</h3><button class="btn-close" onclick="closeModal(null, 'modal-global-skills')">✖</button></div>
+        <div class="modal-body" style="text-align:center"><p class="hint-text">Adicionar em TODAS as perícias:</p><input type="number" id="mod-global-skill" value="0" style="font-size:2rem; width:100px; text-align:center; font-weight:bold; color:var(--accent);"></div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-global-skills')">Concluir</button></div>
+    </div>
+</div>
+
+<div id="modal-global-saves" class="modal-overlay hidden" onclick="closeModal(event, 'modal-global-saves')">
+    <div class="modal-content" style="max-width:300px" onclick="event.stopPropagation()">
+        <div class="modal-header"><h3>Bônus Global (Saves)</h3><button class="btn-close" onclick="closeModal(null, 'modal-global-saves')">✖</button></div>
+        <div class="modal-body" style="text-align:center"><p class="hint-text">Adicionar em TODOS os testes de resistência:</p><input type="number" id="mod-global-save" value="0" style="font-size:2rem; width:100px; text-align:center; font-weight:bold; color:var(--accent);"></div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-global-saves')">Concluir</button></div>
+    </div>
+</div>
+
 <div id="modal-senses" class="modal-overlay hidden" onclick="closeModal(event, 'modal-senses')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h3>Configurar Sentidos</h3>
-            <button class="btn-close" onclick="closeModal(null, 'modal-senses')">✖</button>
-        </div>
+        <div class="modal-header"><h3>Configurar Sentidos</h3><button class="btn-close" onclick="closeModal(null, 'modal-senses')">✖</button></div>
         <div class="modal-body">
-            <p class="hint-text">Marque os sentidos e defina o alcance (pés/metros).</p>
-            
-            <div class="config-row">
-                <label><input type="checkbox" id="sense-blindsight"> Percepção às Cegas (Blindsight)</label>
-                <input type="number" id="val-sense-blindsight" placeholder="ft." class="small-input">
-            </div>
-            <div class="config-row">
-                <label><input type="checkbox" id="sense-darkvision"> Visão no Escuro (Darkvision)</label>
-                <input type="number" id="val-sense-darkvision" placeholder="ft." class="small-input">
-            </div>
-            <div class="config-row">
-                <label><input type="checkbox" id="sense-tremorsense"> Sentido Sísmico (Tremorsense)</label>
-                <input type="number" id="val-sense-tremorsense" placeholder="ft." class="small-input">
-            </div>
-            <div class="config-row">
-                <label><input type="checkbox" id="sense-truesight"> Visão Verdadeira (Truesight)</label>
-                <input type="number" id="val-sense-truesight" placeholder="ft." class="small-input">
-            </div>
+            <div class="config-row"><label><input type="checkbox" id="sense-blindsight"> Percepção às Cegas</label><input type="number" id="val-sense-blindsight" placeholder="ft." class="small-input"></div>
+            <div class="config-row"><label><input type="checkbox" id="sense-darkvision"> Visão no Escuro</label><input type="number" id="val-sense-darkvision" placeholder="ft." class="small-input"></div>
+            <div class="config-row"><label><input type="checkbox" id="sense-tremorsense"> Sentido Sísmico</label><input type="number" id="val-sense-tremorsense" placeholder="ft." class="small-input"></div>
+            <div class="config-row"><label><input type="checkbox" id="sense-truesight"> Visão Verdadeira</label><input type="number" id="val-sense-truesight" placeholder="ft." class="small-input"></div>
         </div>
-        <div class="modal-footer">
-            <button class="btn" onclick="closeModal(null, 'modal-senses')">Concluir</button>
-        </div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-senses')">Concluir</button></div>
     </div>
 </div>
 
 <div id="modal-resistances" class="modal-overlay hidden" onclick="closeModal(event, 'modal-resistances')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h3>Configurar Resistências</h3>
-            <button class="btn-close" onclick="closeModal(null, 'modal-resistances')">✖</button>
-        </div>
+        <div class="modal-header"><h3>Resistências</h3><button class="btn-close" onclick="closeModal(null, 'modal-resistances')">✖</button></div>
         <div class="modal-body">
-            
-            <h4 class="modal-subtitle">Tipos de Dano</h4>
+            <h4 class="modal-subtitle">Dano</h4>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="res-acido"> Ácido</label>
                 <label class="config-item"><input type="checkbox" id="res-concussivo"> Concussivo</label>
@@ -392,30 +455,22 @@
                 <label class="config-item"><input type="checkbox" id="res-trovejante"> Trovejante</label>
                 <label class="config-item"><input type="checkbox" id="res-venenoso"> Venenoso</label>
             </div>
-
-            <h4 class="modal-subtitle">Superar Resistência (Físico)</h4>
+            <h4 class="modal-subtitle">Físico</h4>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="res-adamantina"> Adamantina</label>
                 <label class="config-item"><input type="checkbox" id="res-magico"> Mágico</label>
                 <label class="config-item"><input type="checkbox" id="res-prata"> Prata</label>
             </div>
-
         </div>
-        <div class="modal-footer">
-            <button class="btn" onclick="closeModal(null, 'modal-resistances')">Concluir</button>
-        </div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-resistances')">Concluir</button></div>
     </div>
 </div>
 
 <div id="modal-vulnerabilities" class="modal-overlay hidden" onclick="closeModal(event, 'modal-vulnerabilities')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h3>Configurar Vulnerabilidades</h3>
-            <button class="btn-close" onclick="closeModal(null, 'modal-vulnerabilities')">✖</button>
-        </div>
+        <div class="modal-header"><h3>Vulnerabilidades</h3><button class="btn-close" onclick="closeModal(null, 'modal-vulnerabilities')">✖</button></div>
         <div class="modal-body">
-            
-            <h4 class="modal-subtitle">Tipos de Dano</h4>
+            <h4 class="modal-subtitle">Dano</h4>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="vul-acido"> Ácido</label>
                 <label class="config-item"><input type="checkbox" id="vul-concussivo"> Concussivo</label>
@@ -431,35 +486,27 @@
                 <label class="config-item"><input type="checkbox" id="vul-trovejante"> Trovejante</label>
                 <label class="config-item"><input type="checkbox" id="vul-venenoso"> Venenoso</label>
             </div>
-
-            <h4 class="modal-subtitle">Materiais Especiais</h4>
+            <h4 class="modal-subtitle">Material</h4>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="vul-adamantina"> Adamantina</label>
                 <label class="config-item"><input type="checkbox" id="vul-magico"> Mágico</label>
                 <label class="config-item"><input type="checkbox" id="vul-prata"> Prata</label>
             </div>
-
         </div>
-        <div class="modal-footer">
-            <button class="btn" onclick="closeModal(null, 'modal-vulnerabilities')">Concluir</button>
-        </div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-vulnerabilities')">Concluir</button></div>
     </div>
 </div>
 
 <div id="modal-conditions" class="modal-overlay hidden" onclick="closeModal(event, 'modal-conditions')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h3>Configurar Condições</h3>
-            <button class="btn-close" onclick="closeModal(null, 'modal-conditions')">✖</button>
-        </div>
+        <div class="modal-header"><h3>Condições</h3><button class="btn-close" onclick="closeModal(null, 'modal-conditions')">✖</button></div>
         <div class="modal-body">
-            <p class="hint-text">Marque as condições que afetam o personagem atualmente.</p>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="cond-agarrado"> Agarrado</label>
                 <label class="config-item"><input type="checkbox" id="cond-amaldiçoado"> Amaldiçoado</label>
                 <label class="config-item"><input type="checkbox" id="cond-amedrontado"> Amedrontado</label>
                 <label class="config-item"><input type="checkbox" id="cond-atordoado"> Atordoado</label>
-                <label class="config-item"><input type="checkbox" id="cond-caido"> Caído (Prone)</label>
+                <label class="config-item"><input type="checkbox" id="cond-caido"> Caído</label>
                 <label class="config-item"><input type="checkbox" id="cond-caindo"> Caindo</label>
                 <label class="config-item"><input type="checkbox" id="cond-cego"> Cego</label>
                 <label class="config-item"><input type="checkbox" id="cond-desidratado"> Desidratado</label>
@@ -483,21 +530,15 @@
                 <label class="config-item"><input type="checkbox" id="cond-transformado"> Transformado</label>
             </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn" onclick="closeModal(null, 'modal-conditions')">Concluir</button>
-        </div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-conditions')">Concluir</button></div>
     </div>
 </div>
 
 <div id="modal-immunities" class="modal-overlay hidden" onclick="closeModal(event, 'modal-immunities')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h3>Configurar Imunidades</h3>
-            <button class="btn-close" onclick="closeModal(null, 'modal-immunities')">✖</button>
-        </div>
+        <div class="modal-header"><h3>Imunidades</h3><button class="btn-close" onclick="closeModal(null, 'modal-immunities')">✖</button></div>
         <div class="modal-body">
-            
-            <h4 class="modal-subtitle">Imunidade a Dano</h4>
+            <h4 class="modal-subtitle">Dano</h4>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="imm-acido"> Ácido</label>
                 <label class="config-item"><input type="checkbox" id="imm-concussivo"> Concussivo</label>
@@ -513,15 +554,7 @@
                 <label class="config-item"><input type="checkbox" id="imm-trovejante"> Trovejante</label>
                 <label class="config-item"><input type="checkbox" id="imm-venenoso"> Venenoso</label>
             </div>
-            
-            <h4 class="modal-subtitle">Materiais (Não Mágico)</h4>
-            <div class="config-grid">
-                <label class="config-item"><input type="checkbox" id="imm-adamantina"> Adamantina</label>
-                <label class="config-item"><input type="checkbox" id="imm-magico"> Mágico</label>
-                <label class="config-item"><input type="checkbox" id="imm-prata"> Prata</label>
-            </div>
-
-            <h4 class="modal-subtitle">Imunidade a Condição</h4>
+            <h4 class="modal-subtitle">Condição</h4>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="imm-cond-agarrado"> Agarrado</label>
                 <label class="config-item"><input type="checkbox" id="imm-cond-amaldiçoado"> Amaldiçoado</label>
@@ -551,72 +584,56 @@
                 <label class="config-item"><input type="checkbox" id="imm-cond-transformado"> Transformado</label>
             </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn" onclick="closeModal(null, 'modal-immunities')">Concluir</button>
-        </div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-immunities')">Concluir</button></div>
     </div>
 </div>
 
 <div id="modal-armors" class="modal-overlay hidden" onclick="closeModal(event, 'modal-armors')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h3>Proficiências em Armaduras</h3>
-            <button class="btn-close" onclick="closeModal(null, 'modal-armors')">✖</button>
-        </div>
+        <div class="modal-header"><h3>Prof. Armaduras</h3><button class="btn-close" onclick="closeModal(null, 'modal-armors')">✖</button></div>
         <div class="modal-body">
-            
-            <h4 class="modal-subtitle">Armaduras Leves</h4>
+            <h4 class="modal-subtitle">Leves</h4>
             <div class="config-grid">
-                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="arm-light-all"> Todas Leves</label>
+                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="arm-light-all"> Todas</label>
                 <label class="config-item"><input type="checkbox" id="arm-padded"> Acolchoada</label>
                 <label class="config-item"><input type="checkbox" id="arm-leather"> Couro</label>
                 <label class="config-item"><input type="checkbox" id="arm-studded"> Couro Batido</label>
             </div>
-
-            <h4 class="modal-subtitle">Armaduras Médias</h4>
+            <h4 class="modal-subtitle">Médias</h4>
             <div class="config-grid">
-                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="arm-medium-all"> Todas Médias</label>
-                <label class="config-item"><input type="checkbox" id="arm-hide"> Gibão de Peles</label>
-                <label class="config-item"><input type="checkbox" id="arm-chain-shirt"> Camisão de Malha</label>
+                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="arm-medium-all"> Todas</label>
+                <label class="config-item"><input type="checkbox" id="arm-hide"> Peles</label>
+                <label class="config-item"><input type="checkbox" id="arm-chain-shirt"> Camisão</label>
                 <label class="config-item"><input type="checkbox" id="arm-scale"> Brunea</label>
                 <label class="config-item"><input type="checkbox" id="arm-breastplate"> Peitoral</label>
                 <label class="config-item"><input type="checkbox" id="arm-half-plate"> Meia-Armadura</label>
             </div>
-
-            <h4 class="modal-subtitle">Armaduras Pesadas</h4>
+            <h4 class="modal-subtitle">Pesadas</h4>
             <div class="config-grid">
-                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="arm-heavy-all"> Todas Pesadas</label>
-                <label class="config-item"><input type="checkbox" id="arm-ring"> Cota de Anéis</label>
-                <label class="config-item"><input type="checkbox" id="arm-chain-mail"> Cota de Malha</label>
-                <label class="config-item"><input type="checkbox" id="arm-splint"> Cota de Talas</label>
+                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="arm-heavy-all"> Todas</label>
+                <label class="config-item"><input type="checkbox" id="arm-ring"> Anéis</label>
+                <label class="config-item"><input type="checkbox" id="arm-chain-mail"> Cota Malha</label>
+                <label class="config-item"><input type="checkbox" id="arm-splint"> Talas</label>
                 <label class="config-item"><input type="checkbox" id="arm-plate"> Placas</label>
             </div>
-
             <h4 class="modal-subtitle">Escudos</h4>
             <div class="config-grid">
-                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="arm-shield-all"> Todos Escudos</label>
+                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="arm-shield-all"> Todos</label>
                 <label class="config-item"><input type="checkbox" id="arm-shield"> Escudo</label>
             </div>
-
         </div>
-        <div class="modal-footer">
-            <button class="btn" onclick="closeModal(null, 'modal-armors')">Concluir</button>
-        </div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-armors')">Concluir</button></div>
     </div>
 </div>
 
 <div id="modal-weapons" class="modal-overlay hidden" onclick="closeModal(event, 'modal-weapons')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h3>Proficiências em Armas</h3>
-            <button class="btn-close" onclick="closeModal(null, 'modal-weapons')">✖</button>
-        </div>
+        <div class="modal-header"><h3>Prof. Armas</h3><button class="btn-close" onclick="closeModal(null, 'modal-weapons')">✖</button></div>
         <div class="modal-body">
-            
-            <h4 class="modal-subtitle">Armas Simples</h4>
+            <h4 class="modal-subtitle">Simples</h4>
             <div class="config-grid">
-                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="wpn-simple-all"> Todas Simples</label>
-                <label class="config-item"><input type="checkbox" id="wpn-club"> Clava (Club)</label>
+                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="wpn-simple-all"> Todas</label>
+                <label class="config-item"><input type="checkbox" id="wpn-club"> Clava</label>
                 <label class="config-item"><input type="checkbox" id="wpn-dagger"> Adaga</label>
                 <label class="config-item"><input type="checkbox" id="wpn-dart"> Dardo</label>
                 <label class="config-item"><input type="checkbox" id="wpn-greatclub"> Grande Clava</label>
@@ -631,10 +648,9 @@
                 <label class="config-item"><input type="checkbox" id="wpn-shortbow"> Arco Curto</label>
                 <label class="config-item"><input type="checkbox" id="wpn-sling"> Funda</label>
             </div>
-
-            <h4 class="modal-subtitle">Armas Marciais</h4>
+            <h4 class="modal-subtitle">Marciais</h4>
             <div class="config-grid">
-                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="wpn-martial-all"> Todas Marciais</label>
+                <label class="config-item" style="font-weight:bold; color:var(--accent);"><input type="checkbox" id="wpn-martial-all"> Todas</label>
                 <label class="config-item"><input type="checkbox" id="wpn-battleaxe"> Machado Batalha</label>
                 <label class="config-item"><input type="checkbox" id="wpn-flail"> Mangual</label>
                 <label class="config-item"><input type="checkbox" id="wpn-glaive"> Glaive</label>
@@ -659,29 +675,21 @@
                 <label class="config-item"><input type="checkbox" id="wpn-longbow"> Arco Longo</label>
                 <label class="config-item"><input type="checkbox" id="wpn-net"> Rede</label>
             </div>
-
-            <h4 class="modal-subtitle">Armas de Fogo</h4>
+            <h4 class="modal-subtitle">Fogo</h4>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="wpn-pistol"> Pistola</label>
                 <label class="config-item"><input type="checkbox" id="wpn-musket"> Mosquete</label>
             </div>
-
         </div>
-        <div class="modal-footer">
-            <button class="btn" onclick="closeModal(null, 'modal-weapons')">Concluir</button>
-        </div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-weapons')">Concluir</button></div>
     </div>
 </div>
 
 <div id="modal-languages" class="modal-overlay hidden" onclick="closeModal(event, 'modal-languages')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h3>Configurar Idiomas</h3>
-            <button class="btn-close" onclick="closeModal(null, 'modal-languages')">✖</button>
-        </div>
+        <div class="modal-header"><h3>Idiomas</h3><button class="btn-close" onclick="closeModal(null, 'modal-languages')">✖</button></div>
         <div class="modal-body">
-            
-            <h4 class="modal-subtitle">Idiomas Padrão</h4>
+            <h4 class="modal-subtitle">Padrão</h4>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="lang-common"> Comum</label>
                 <label class="config-item"><input type="checkbox" id="lang-dwarvish"> Anão</label>
@@ -692,10 +700,9 @@
                 <label class="config-item"><input type="checkbox" id="lang-halfling"> Pequenino</label>
                 <label class="config-item"><input type="checkbox" id="lang-orc"> Orc</label>
                 <label class="config-item"><input type="checkbox" id="lang-draconic"> Dracônico</label>
-                <label class="config-item"><input type="checkbox" id="lang-sign"> Libras (Sign)</label>
+                <label class="config-item"><input type="checkbox" id="lang-sign"> Libras</label>
             </div>
-
-            <h4 class="modal-subtitle">Idiomas Exóticos</h4>
+            <h4 class="modal-subtitle">Exótico</h4>
             <div class="config-grid">
                 <label class="config-item"><input type="checkbox" id="lang-celestial"> Celestial</label>
                 <label class="config-item"><input type="checkbox" id="lang-abyssal"> Abissal</label>
@@ -710,17 +717,13 @@
                 <label class="config-item"><input type="checkbox" id="lang-gith"> Gith</label>
                 <label class="config-item"><input type="checkbox" id="lang-gnoll"> Gnoll</label>
             </div>
-
-            <h4 class="modal-subtitle">Comunicação Especial</h4>
+            <h4 class="modal-subtitle">Especial</h4>
             <div class="config-row">
                 <label><input type="checkbox" id="lang-telepathy"> Telepatia</label>
                 <input type="number" id="val-lang-telepathy" placeholder="ft." class="small-input">
             </div>
-
         </div>
-        <div class="modal-footer">
-            <button class="btn" onclick="closeModal(null, 'modal-languages')">Concluir</button>
-        </div>
+        <div class="modal-footer"><button class="btn" onclick="closeModal(null, 'modal-languages')">Concluir</button></div>
     </div>
 </div>
 
