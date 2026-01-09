@@ -293,11 +293,14 @@ function loadData() {
     const s = localStorage.getItem('dndSheetData');
     const d = s ? JSON.parse(s) : defaultData;
 
+    // Carrega IDs (Inputs simples)
     for (const [k, v] of Object.entries(d.ids)) {
         if(k === 'charAvatarData') continue;
         const el = document.getElementById(k);
         if(el) { if(el.type === 'checkbox') el.checked = v; else el.value = v; }
     }
+    
+    // Carrega Imagem
     const imgEl = document.getElementById('char-avatar-img');
     if(imgEl) {
         if(d.ids.charAvatarData) imgEl.src = d.ids.charAvatarData;
@@ -306,22 +309,33 @@ function loadData() {
     const titleEl = document.getElementById('page-title'); const nameEl = document.getElementById('charName');
     if(titleEl && nameEl) titleEl.innerText = nameEl.value.trim() || 'Ficha de Personagem';
 
+    // Carrega Checkboxes (Perícias e Saves)
     if(d.checks) for (const [k, v] of Object.entries(d.checks)) { const el = document.getElementById(k); if(el) { if(k.startsWith('skill-')) el.setAttribute('data-state', v); else el.checked = v; } }
+    
+    // Carrega Valores (Inputs manuais dentro de listas)
     if(d.values) for (const [k, v] of Object.entries(d.values)) { const el = document.getElementById(k); if(el) el.value = v; }
     
+    // Carrega Listas (Ataques, Magias, etc)
     for (const [lid, items] of Object.entries(d.lists)) {
         const c = document.getElementById(lid); 
         if(c) {
-            c.innerHTML = '';
+            // CORREÇÃO AQUI: Se for magias, não apaga tudo, limpa só o conteúdo das gavetas
+            if (lid === 'spells-list') {
+                c.querySelectorAll('.sg-content').forEach(div => div.innerHTML = '');
+            } else {
+                c.innerHTML = ''; // Para as outras listas, limpa tudo normalmente
+            }
+
             let type = 'item';
             if(lid.includes('attack')) type = 'attack';
             else if(lid.includes('resource')) type = 'resource';
             else if(lid.includes('feature')) type = 'feature';
             else if(lid.includes('spell')) type = 'spell';
+            
             items.forEach(i => renderItem(c, type, i));
         }
     }
-    updateExhaustionUI(); // Chama antes de acabar
+    updateExhaustionUI(); 
     calcMods(); renderTags(); updateHPUI();
 }
 
@@ -386,18 +400,85 @@ function addItem(cid, type) {
     const c = document.getElementById(cid);
     if(c) { let cat = ''; if(type==='feature') cat='Classe'; if(type==='spell') cat='1º Círculo'; if(type==='item') cat='Geral'; renderItem(c, type, {category:cat}); saveData(); }
 }
-function renderItem(c, type, d) {
-    const div = document.createElement('div'); div.className = 'dynamic-item';
-    const sel = (opts, s) => `<select name="category" class="category-select" onchange="debouncedSave(); filterList(this.closest('.tab-content').querySelector('.search-input').id, this.closest('.tab-content').querySelector('.filter-select').id, this.closest('.dynamic-list').id);">${opts.map(o => `<option value="${o}" ${s===o?'selected':''}>${o}</option>`).join('')}</select>`;
-    let h = '';
-    if (type === 'attack') h = `<input type="text" name="name" placeholder="Arma" value="${d.name||''}" style="flex:2" oninput="debouncedSave()"><input type="text" name="bonus" placeholder="+Tk" value="${d.bonus||''}" style="width:50px" oninput="debouncedSave()"><input type="text" name="dmg" placeholder="Dano" value="${d.dmg||''}" style="flex:1" oninput="debouncedSave()">`;
-    else if (type === 'resource') h = `<input type="text" name="name" placeholder="Recurso" value="${d.name||''}" style="flex:2" oninput="debouncedSave()"><input type="number" name="current" value="${d.current||0}" style="width:50px" oninput="debouncedSave()"><span>/</span><input type="number" name="max" value="${d.max||0}" style="width:50px" oninput="debouncedSave()">`;
-    else if (type === 'feature') h = `<div style="width:100%">${sel(FEATURE_CATS, d.category)}<input type="text" name="name" placeholder="Nome" value="${d.name||''}" style="font-weight:bold; margin-bottom:5px" oninput="debouncedSave(); filterList('featureSearch','featureFilter','features-list');"><textarea name="desc" placeholder="Descrição..." rows="2" oninput="debouncedSave(); filterList('featureSearch','featureFilter','features-list');">${d.desc||''}</textarea></div>`;
-    else if (type === 'spell') h = `<div style="width:100%">${sel(SPELL_LEVELS, d.category)}<input type="text" name="name" placeholder="Nome da Magia" value="${d.name||''}" style="font-weight:bold; margin-bottom:5px" oninput="debouncedSave(); filterList('spellSearch','spellFilter','spells-list');"><textarea name="desc" placeholder="Descrição..." rows="2" oninput="debouncedSave(); filterList('spellSearch','spellFilter','spells-list');">${d.desc||''}</textarea></div>`;
-    else if (type === 'item') h = `<input type="number" name="qtd" value="${d.qtd||1}" class="qty-col" oninput="debouncedSave()"><div style="flex:1; display:flex; flex-direction:column;">${sel(ITEM_CATS, d.category)}<input type="text" name="name" placeholder="Item" value="${d.name||''}" class="name-col" oninput="debouncedSave(); filterList('inventorySearch','inventoryFilter','inventory-list');"></div>`;
-    div.innerHTML = h + `<button class="btn btn-danger btn-small action-col" onclick="this.parentElement.remove(); debouncedSave()">X</button>`;
-    c.appendChild(div);
+
+// Função auxiliar para mapear o nome da categoria (ex: "1º Círculo") para o ID da div (ex: "sg-1")
+function getSpellGroupId(category) {
+    if (!category || category === 'Truque') return 'sg-0';
+    // Pega o primeiro número da string (ex: "1º Círculo" -> "1")
+    const match = category.match(/\d+/);
+    return match ? 'sg-' + match[0] : 'sg-0';
 }
+
+function renderItem(c, type, d) {
+    const div = document.createElement('div'); 
+    div.className = 'dynamic-item';
+    
+    // Função para criar o select de categorias
+    // Adicionei onchange="moveSpell(this)" para detectar mudança de nível em magias
+    const sel = (opts, s) => `<select name="category" class="category-select" onchange="debouncedSave(); ${type === 'spell' ? 'moveSpell(this);' : ''} filterList(this.closest('.tab-content').querySelector('.search-input').id, this.closest('.tab-content').querySelector('.filter-select').id, this.closest('.dynamic-list').id);">${opts.map(o => `<option value="${o}" ${s===o?'selected':''}>${o}</option>`).join('')}</select>`;
+    
+    let h = '';
+    
+    if (type === 'attack') {
+        h = `<input type="text" name="name" placeholder="Arma" value="${d.name||''}" style="flex:2" oninput="debouncedSave()"><input type="text" name="bonus" placeholder="+Tk" value="${d.bonus||''}" style="width:50px" oninput="debouncedSave()"><input type="text" name="dmg" placeholder="Dano" value="${d.dmg||''}" style="flex:1" oninput="debouncedSave()">`;
+    } 
+    else if (type === 'resource') {
+        h = `<input type="text" name="name" placeholder="Recurso" value="${d.name||''}" style="flex:2" oninput="debouncedSave()">
+             <div style="display:flex; align-items:center; gap:2px;">
+                <button class="btn-ingame btn-use-res" onclick="useResource(this)" title="Gastar 1">▼</button>
+                <input type="number" name="current" value="${d.current||0}" style="width:50px" oninput="debouncedSave()">
+                <span>/</span>
+                <input type="number" name="max" value="${d.max||0}" style="width:50px" oninput="debouncedSave()">
+             </div>`;
+    } 
+    else if (type === 'feature') {
+        h = `<div style="width:100%">${sel(FEATURE_CATS, d.category)}<input type="text" name="name" placeholder="Nome" value="${d.name||''}" style="font-weight:bold; margin-bottom:5px" oninput="debouncedSave(); filterList('featureSearch','featureFilter','features-list');"><textarea name="desc" placeholder="Descrição..." rows="2" oninput="debouncedSave(); filterList('featureSearch','featureFilter','features-list');">${d.desc||''}</textarea></div>`;
+    } 
+    else if (type === 'spell') {
+        h = `<div style="width:100%">
+                ${sel(SPELL_LEVELS, d.category)}
+                <input type="text" name="name" placeholder="Nome da Magia" value="${d.name||''}" style="font-weight:bold; margin-bottom:5px" oninput="debouncedSave(); filterList('spellSearch','spellFilter','spells-list');">
+                <textarea name="desc" placeholder="Descrição..." rows="2" oninput="debouncedSave(); filterList('spellSearch','spellFilter','spells-list');">${d.desc||''}</textarea>
+             </div>`;
+    } 
+    else if (type === 'item') {
+        h = `<input type="number" name="qtd" value="${d.qtd||1}" class="qty-col" oninput="debouncedSave()"><div style="flex:1; display:flex; flex-direction:column;">${sel(ITEM_CATS, d.category)}<input type="text" name="name" placeholder="Item" value="${d.name||''}" class="name-col" oninput="debouncedSave(); filterList('inventorySearch','inventoryFilter','inventory-list');"></div>`;
+    }
+
+    div.innerHTML = h + `<button class="btn btn-danger btn-small action-col" onclick="this.parentElement.remove(); debouncedSave()">X</button>`;
+
+    // LÓGICA DE INSERÇÃO
+    // Se for Magia, não insere direto no 'c' (que é #spells-list), mas sim na sub-div correta
+    if (type === 'spell') {
+        const groupId = getSpellGroupId(d.category);
+        const groupContainer = document.getElementById(groupId);
+        if (groupContainer) {
+            // Insere dentro da div .sg-content desse grupo
+            groupContainer.querySelector('.sg-content').appendChild(div);
+        } else {
+            // Fallback se algo der errado (ex: categoria inválida), joga no Truque
+            const fallback = document.getElementById('sg-0');
+            if(fallback) fallback.querySelector('.sg-content').appendChild(div);
+        }
+    } else {
+        // Outros itens (Inventário, Features, Ataques) seguem o padrão normal
+        c.appendChild(div);
+    }
+}
+
+// NOVA FUNÇÃO: Move a magia de grupo quando muda o dropdown
+function moveSpell(selectElement) {
+    const newCategory = selectElement.value;
+    const itemRow = selectElement.closest('.dynamic-item');
+    const newGroupId = getSpellGroupId(newCategory);
+    
+    const newContainer = document.getElementById(newGroupId);
+    if (newContainer && itemRow) {
+        newContainer.querySelector('.sg-content').appendChild(itemRow);
+    }
+}
+
+window.moveSpell = moveSpell;
 function exportData() { saveData(); const r=localStorage.getItem('dndSheetData'); if(!r)return; const n=JSON.parse(r).ids.charName||'Personagem'; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([r],{type:"application/json"})); a.download=`${n.replace(/[^a-z0-9]/gi,'_')}_Ficha.json`; a.click(); }
 function importData(i) { const f=i.files[0]; if(!f||!confirm("Substituir ficha?"))return; const r=new FileReader(); r.onload=e=>{try{JSON.parse(e.target.result);localStorage.setItem('dndSheetData',e.target.result);loadData();alert("Sucesso!");}catch{alert("Erro");}}; r.readAsText(f); }
 function resetData() { if(confirm("Apagar tudo?")){localStorage.removeItem('dndSheetData'); location.reload();} }
@@ -458,3 +539,37 @@ function longRest() {
     alert("Descanso Longo concluído! Você está renovado.");
     debouncedSave();
 }
+
+/* --- SISTEMA DE USO (INGAME) --- */
+
+// Função para diminuir recurso da lista dinâmica
+function useResource(btn) {
+    // Acha o input "current" que está na mesma linha do botão
+    const row = btn.closest('.dynamic-item');
+    const input = row.querySelector('input[name="current"]');
+    if (input) {
+        let val = parseInt(input.value) || 0;
+        if (val > 0) {
+            input.value = val - 1;
+            debouncedSave();
+        }
+    }
+}
+// Exporta para o HTML
+window.useResource = useResource;
+
+// Função para diminuir Slot de Magia
+function useSlot(level) {
+    // Se for 'pact', o ID é diferente
+    const id = level === 'pact' ? 'slot-pact-curr' : `slot-${level}-curr`;
+    const input = document.getElementById(id);
+    
+    if (input) {
+        let val = parseInt(input.value) || 0;
+        if (val > 0) {
+            input.value = val - 1;
+            debouncedSave();
+        }
+    }
+}
+window.useSlot = useSlot;
