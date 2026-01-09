@@ -63,265 +63,148 @@ body {
    3. UTILIDADES GERAIS
    ======================================== */
 
-.hidden {
-    display: none !important;
-}
-
-.flex-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.flex-1 {
-    flex: 1;
-}
+.hidden { display: none !important; }
+.flex-row { display: flex; gap: 10px; align-items: center; }
+.flex-1 { flex: 1; }
 
 .empty-msg {
     color: var(--text-muted);
     font-size: 0.8rem;
     font-style: italic;
+    padding: 5px;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* ========================================
    4. BOTÕES
    ======================================== */
 
 .btn {
-    background: var(--accent);
-    color: #000;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: bold;
-    border-radius: var(--radius);
+    background: var(--accent); color: #000; border: none; padding: 8px 16px;
+    cursor: pointer; font-weight: bold; border-radius: var(--radius); transition: 0.2s;
 }
+.btn:hover { background: var(--accent-hover); }
 
-.btn:hover {
-    background: var(--accent-hover);
-}
-
-.btn-outline {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-}
-
-.btn-danger {
-    background: var(--danger);
-    color: #000;
-}
-
-.btn-success {
-    background: var(--success);
-    color: #000;
-}
-
-.btn-small {
-    padding: 4px 10px;
-    font-size: 0.8rem;
-}
+.btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+.btn-danger { background: var(--danger); color: #000; }
+.btn-success { background: var(--success); color: #000; }
+.btn-small { padding: 4px 10px; font-size: 0.8rem; }
 
 .btn-icon {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 0 5px;
-    opacity: 0.7;
-    transition: 0.2s;
+    background: transparent; border: none; cursor: pointer; font-size: 1.2rem;
+    padding: 0 5px; opacity: 0.7; transition: 0.2s; color: var(--text-muted);
 }
-
-.btn-icon:hover {
-    opacity: 1;
-    transform: rotate(45deg);
-}
+.btn-icon:hover { opacity: 1; transform: rotate(45deg); color: var(--accent); }
 
 .btn-icon-small {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    opacity: 0.6;
-    transition: 0.2s;
-    color: var(--text-muted);
-    pointer-events: auto;
+    background: transparent; border: none; cursor: pointer; font-size: 1rem;
+    opacity: 0.6; transition: 0.2s; color: var(--text-muted); pointer-events: auto;
 }
-
-.btn-icon-small:hover {
-    opacity: 1;
-    transform: rotate(90deg);
-    color: var(--accent);
-}
+.btn-icon-small:hover { opacity: 1; transform: rotate(90deg); color: var(--accent); }
 
 .btn-close {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 1.2rem;
-    cursor: pointer;
+    background: transparent; border: none; color: var(--text-muted);
+    font-size: 1.2rem; cursor: pointer; transition: 0.2s;
 }
+.btn-close:hover { color: #fff; }
 
 .btn-circle {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: #333;
-    color: #fff;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    width: 25px; height: 25px; border-radius: 50%; border: 1px solid var(--border);
+    background: #333; color: #fff; cursor: pointer; display: inline-flex;
+    align-items: center; justify-content: center;
 }
+.btn-circle:hover { background: var(--accent); color: #000; }
 
-.btn-circle:hover {
-    background: var(--accent);
-    color: #000;
+/* --- BOTÕES "INGAME" (USO RÁPIDO) --- */
+.btn-ingame {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: 0.2s; font-size: 0.7rem; padding: 0;
 }
+.btn-ingame:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+.btn-ingame:active { transform: scale(0.95); }
+
+/* Botão de Magia Vertical */
+.btn-use-magic-v {
+    width: 20px; height: 100%; border-radius: 0; border: none;
+    border-right: 1px solid var(--border); background: rgba(255,255,255,0.05);
+    color: var(--text-muted); font-size: 0.6rem; cursor: pointer; flex-shrink: 0;
+}
+.btn-use-magic-v:hover { background: var(--accent); color: #000; }
+
+/* Botão de Recurso (Lista) */
+.btn-use-res { width: 20px; height: 20px; border-radius: 4px; margin-right: 5px; }
 
 /* ========================================
    5. INPUTS E FORMULÁRIOS
    ======================================== */
 
-input,
-textarea {
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    color: var(--text-main);
-    padding: 8px;
-    border-radius: var(--radius);
-    width: 100%;
+input, textarea, select {
+    background: var(--bg-input); border: 1px solid var(--border);
+    color: var(--text-main); padding: 8px; border-radius: var(--radius); width: 100%;
 }
-
-input:focus,
-textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
 
 .small-input {
-    width: 50px;
-    padding: 2px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--border);
-    color: #fff;
-    border-radius: 4px;
+    width: 50px; padding: 2px; text-align: center; background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border); color: #fff; border-radius: 4px;
 }
 
-.search-input {
-    flex: 2;
-    font-size: 0.9rem;
-}
-
-.filter-select {
-    flex: 1;
-    min-width: 120px;
-    cursor: pointer;
-}
+.search-input { flex: 2; font-size: 0.9rem; }
+.filter-select { flex: 1; min-width: 120px; cursor: pointer; }
 
 .category-select {
-    font-size: 0.75rem;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background: #333;
-    color: var(--accent);
-    border: 1px solid var(--border);
-    margin-bottom: 5px;
-    display: inline-block;
-    width: auto !important;
+    font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; background: #333;
+    color: var(--accent); border: 1px solid var(--border); margin-bottom: 5px;
+    display: inline-block; width: auto !important;
 }
 
 /* ========================================
-   6. CARDS E PAINÉIS (CORRIGIDO)
+   6. CARDS E PAINÉIS
    ======================================== */
 
 .card {
-    background: var(--bg-card);
-    padding: 15px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    margin-bottom: 15px;
-    min-width: 120px;
-    /* Adiciona sombra leve para destaque */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    background: var(--bg-card); padding: 15px; border-radius: var(--radius);
+    border: 1px solid var(--border); margin-bottom: 15px; min-width: 120px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .card h3 {
-    margin-top: 0;
-    color: var(--accent);
-    font-size: 1.1rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 8px;
-    margin-bottom: 10px;
+    margin-top: 0; color: var(--accent); font-size: 1.1rem;
+    border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 10px;
 }
 
-/* --- CORREÇÃO DO GRID DE STATUS (CA, INICIATIVA, ETC) --- */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Garante 2 colunas */
-    gap: 10px;
+.card-header, .card-header-slim {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border); margin-bottom: 10px; padding-bottom: 5px;
 }
-
-.stats-grid .card {
-    margin-bottom: 0;
-    padding: 10px;
-    /* Centraliza o conteúdo vertical e horizontalmente */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 80px; /* Garante altura mínima para ficar bonito */
-}
-
-.stats-grid label {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 5px;
-    font-weight: 600;
-}
-
-/* O Segredo: Estilo específico para os números grandes */
-.stats-grid input {
-    text-align: center;
-    font-size: 1.8rem; /* Fonte Grande */
-    font-weight: bold;
-    background: transparent;
-    border: none;
-    padding: 0;
-    height: auto;
-    color: var(--text-main);
-    width: 100%;
-}
-
-.card-header-slim {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-}
-
-.card-header-slim h3 {
-    border: none;
-    margin: 0;
-    padding: 0;
-}
+.card-header h3, .card-header-slim h3 { border: none; margin: 0; padding: 0; }
 
 .skills-panel {
-    background: var(--bg-card);
-    padding: 15px;
-    border-radius: var(--radius);
+    background: var(--bg-card); padding: 15px; border-radius: var(--radius);
     border: 1px solid var(--border);
+}
+
+/* --- GRID DE STATUS (CA, INICIATIVA...) --- */
+.stats-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+}
+.stats-grid .card {
+    margin-bottom: 0; padding: 10px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center; min-height: 80px;
+}
+.stats-grid label {
+    font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;
+    margin-bottom: 5px; font-weight: 600;
+}
+.stats-grid input {
+    text-align: center; font-size: 1.8rem; font-weight: bold;
+    background: transparent; border: none; padding: 0; height: auto;
+    color: var(--text-main); width: 100%;
 }
 
 /* ========================================
@@ -329,898 +212,389 @@ textarea:focus {
    ======================================== */
 
 header {
-    background: var(--bg-card);
-    padding: 20px;
-    border-radius: var(--radius);
-    margin-bottom: 20px;
-    border: 1px solid var(--border);
+    background: var(--bg-card); padding: 20px; border-radius: var(--radius);
+    margin-bottom: 20px; border: 1px solid var(--border);
 }
-
 .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px; margin-bottom: 20px;
 }
+.header-content { display: flex; gap: 20px; align-items: center; }
 
-.header-content {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-.avatar-section {
-    flex-shrink: 0;
-}
-
+.avatar-section { flex-shrink: 0; }
 .avatar-circle {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 3px solid var(--accent);
-    background: #000;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 100px; height: 100px; border-radius: 50%;
+    border: 3px solid var(--accent); background: #000; overflow: hidden;
+    cursor: pointer; position: relative; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     transition: transform 0.2s, box-shadow 0.2s;
 }
-
-.avatar-circle:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px var(--accent);
-}
-
-.avatar-circle img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
+.avatar-circle:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
+.avatar-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .avatar-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-size: 1.5rem;
-    opacity: 0;
-    transition: opacity 0.2s;
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6); display: flex; justify-content: center;
+    align-items: center; color: #fff; font-size: 1.5rem; opacity: 0; transition: opacity 0.2s;
 }
-
-.avatar-circle:hover .avatar-overlay {
-    opacity: 1;
-}
+.avatar-circle:hover .avatar-overlay { opacity: 1; }
 
 .header-grid {
-    flex-grow: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    flex-grow: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
 }
-
-.header-item label {
-    display: block;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-}
-
-.header-actions {
-    display: flex;
-    gap: 10px;
-}
+.header-item label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px; }
+.header-actions { display: flex; gap: 10px; align-items: center; }
 
 /* ========================================
    8. TABS E NAVEGAÇÃO
    ======================================== */
 
 .tabs {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 20px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-    border-bottom: 2px solid var(--border);
+    display: flex; gap: 5px; margin-bottom: 20px; overflow-x: auto;
+    padding-bottom: 5px; border-bottom: 2px solid var(--border);
 }
-
 .tab-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    padding: 10px 20px;
-    cursor: pointer;
-    white-space: nowrap;
+    background: transparent; border: none; color: var(--text-muted);
+    padding: 10px 20px; cursor: pointer; white-space: nowrap;
     border-radius: var(--radius) var(--radius) 0 0;
 }
-
 .tab-btn.active {
-    color: var(--accent);
-    border-bottom: 3px solid var(--accent);
-    margin-bottom: -2px;
-    font-weight: bold;
-}
-
-.skills-header {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 15px;
-}
-
-.sub-tab-btn {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: 0.2s;
-    font-size: 0.95rem;
-}
-
-.sub-tab-btn:hover {
-    color: var(--text-main);
-}
-
-.sub-tab-btn.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-    font-weight: bold;
+    color: var(--accent); border-bottom: 3px solid var(--accent);
+    margin-bottom: -2px; font-weight: bold;
 }
 
 /* ========================================
    9. ATRIBUTOS E STATS
    ======================================== */
 
-.grid-attrs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
+.grid-attrs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .attr-box {
-    background: var(--bg-card);
-    padding: 10px 5px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    text-align: center;
+    background: var(--bg-card); padding: 10px 5px; border-radius: var(--radius);
+    border: 1px solid var(--border); text-align: center;
 }
-
-.attr-mod {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: var(--accent);
-}
-
-.attr-input {
-    width: 70px;
-    text-align: center;
-    margin: 5px auto 0;
-    font-weight: bold;
-    padding-right: 15px;
-}
+.attr-mod { font-size: 1.8rem; font-weight: bold; color: var(--accent); }
+.attr-input { width: 70px; text-align: center; margin: 5px auto 0; font-weight: bold; padding-right: 15px; }
 
 /* ========================================
-   10. PERÍCIAS E SALVAGUARDAS (CORRIGIDO)
+   10. PERÍCIAS E SALVAGUARDAS
    ======================================== */
 
-.skills-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2px; /* Espaçamento menor entre linhas */
-    animation: fadeIn 0.2s;
+.skills-header { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 15px; }
+.sub-tab-btn {
+    flex: 1; background: transparent; border: none; color: var(--text-muted);
+    padding: 10px; cursor: pointer; border-bottom: 2px solid transparent;
+    transition: 0.2s; font-size: 0.95rem;
 }
+.sub-tab-btn:hover { color: var(--text-main); }
+.sub-tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: bold; }
 
+.skills-list { display: flex; flex-direction: column; gap: 2px; animation: fadeIn 0.2s; }
 .skill-row {
-    display: flex;
-    align-items: center; /* Centraliza verticalmente */
-    gap: 12px; /* Espaço entre a bolinha e o número */
-    padding: 8px 10px;
-    border-radius: 4px;
-    transition: background 0.2s;
-    border-bottom: 1px solid rgba(255,255,255,0.02); /* Linha sutil separadora */
+    display: flex; align-items: center; gap: 12px; padding: 8px 10px;
+    border-radius: 4px; transition: background 0.2s;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
 }
+.skill-row:hover { background: rgba(255, 255, 255, 0.05); }
 
-.skill-row:hover {
-    background: rgba(255, 255, 255, 0.05);
+.skill-val {
+    font-family: monospace; font-size: 1.1em; width: 30px;
+    text-align: center; color: var(--accent); font-weight: bold;
 }
+.skill-name { flex: 1; font-size: 0.95em; white-space: nowrap; }
+.skill-name small { color: var(--text-muted); margin-left: 5px; font-size: 0.85em; }
 
-/* Checkbox das Perícias (Bolinha Span) */
+/* Checkbox Perícia (Bolinha) */
 .skill-check {
-    width: 16px;
-    height: 16px;
-    border: 2px solid var(--text-muted);
-    border-radius: 50%;
-    display: inline-block;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    flex-shrink: 0; /* Impede de amassar */
+    width: 16px; height: 16px; border: 2px solid var(--text-muted); border-radius: 50%;
+    display: inline-block; cursor: pointer; transition: all 0.2s; position: relative; flex-shrink: 0;
 }
-
-/* Estados da Perícia */
 .skill-check[data-state="1"] { background-color: var(--success); border-color: var(--success); box-shadow: 0 0 5px var(--success); }
 .skill-check[data-state="2"] { background-color: #ffd700; border-color: #ffd700; box-shadow: 0 0 8px #ffd700; }
-.skill-check[data-state="2"]::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 6px; height: 6px; background: #000; border-radius: 50%; }
+.skill-check[data-state="2"]::after {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 6px; height: 6px; background: #000; border-radius: 50%;
+}
 
-/* Checkbox das Salvaguardas (Input Nativo) - AJUSTE VISUAL */
+/* Checkbox Salvaguarda (Input Nativo Redondo) */
 .skill-row input[type="checkbox"] {
-    appearance: none; /* Remove estilo padrão do navegador */
-    width: 16px;
-    height: 16px;
-    border: 2px solid var(--text-muted);
-    border-radius: 50%; /* Faz ficar redondo igual perícia */
-    cursor: pointer;
-    margin: 0;
-    position: relative;
-    background-color: transparent;
-    flex-shrink: 0;
+    appearance: none; width: 16px; height: 16px; border: 2px solid var(--text-muted);
+    border-radius: 50%; cursor: pointer; margin: 0; position: relative;
+    background-color: transparent; flex-shrink: 0;
 }
-
-/* Quando marcado (Salvaguarda) */
 .skill-row input[type="checkbox"]:checked {
-    background-color: var(--success);
-    border-color: var(--success);
-    box-shadow: 0 0 5px var(--success);
+    background-color: var(--success); border-color: var(--success); box-shadow: 0 0 5px var(--success);
 }
 
-/* Valor Numérico (+2, -1) */
-.skill-val {
-    font-family: monospace;
-    font-size: 1.1em;
-    width: 30px;
-    text-align: center;
-    color: var(--accent);
-    font-weight: bold;
+/* Rodapés */
+.jack-container, .saves-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border);
 }
-
-.skill-name {
-    flex: 1;
-    font-size: 0.95em;
-    white-space: nowrap; /* Evita quebra de linha feia */
-}
-
-.skill-name small {
-    color: var(--text-muted);
-    margin-left: 5px;
-    font-size: 0.85em;
-}
-
-/* Rodapés (Engrenagem + Jack) */
-.jack-container,
-.saves-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-}
-
-.footer-tools-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
+.footer-tools-left { display: flex; align-items: center; gap: 8px; }
 .jack-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    cursor: pointer;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-    margin-left: auto;
+    display: flex; align-items: center; gap: 8px; font-size: 0.8rem;
+    color: var(--text-muted); cursor: pointer; opacity: 0.8;
+    transition: opacity 0.2s; margin-left: auto;
 }
-
 .jack-label:hover { opacity: 1; color: var(--accent); }
 .jack-label input { width: 14px; height: 14px; margin: 0; accent-color: var(--accent); cursor: pointer; }
 
 .global-badge {
-    font-size: 0.75rem;
-    background: var(--accent);
-    color: #000;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-weight: bold;
+    font-size: 0.75rem; background: var(--accent); color: #000;
+    padding: 2px 6px; border-radius: 4px; font-weight: bold;
 }
 
 /* ========================================
    11. VIDA E VITALIDADE
    ======================================== */
 
-.hp-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 10px;
-}
-
-.hp-input-group {
-    text-align: center;
-    flex: 1;
-}
-
-.hp-input-group input {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    background: rgba(0, 0, 0, 0.2);
-    border: none;
-}
-
-.hp-container {
-    margin-bottom: 15px;
-}
-
-.hp-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-}
-
+.hp-container { margin-bottom: 15px; }
+.hp-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
 .hp-inputs input {
-    width: 60px;
-    text-align: right;
-    border: none;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    padding: 2px 5px;
-    color: #fff;
+    width: 60px; text-align: right; border: none; background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px; padding: 2px 5px; color: #fff;
 }
-
-.health-bar-bg,
-.hp-track {
-    width: 100%;
-    height: 10px;
-    background: #333;
-    border-radius: 5px;
-    overflow: hidden;
-    margin: 10px 0;
+.hp-track, .health-bar-bg {
+    width: 100%; height: 10px; background: #333; border-radius: 5px;
+    overflow: hidden; margin: 10px 0;
 }
-
-.health-bar-fill,
-.hp-fill {
-    height: 100%;
-    background: var(--danger);
-    width: 100%;
-    transition: width 0.3s, background 0.3s;
+.hp-fill, .health-bar-fill {
+    height: 100%; background: #4caf50; width: 100%; transition: width 0.3s, background 0.3s;
 }
+.health-bar-fill { background: var(--danger); } 
 
-.hp-fill {
-    background: #4caf50;
+.hp-wrapper {
+    display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;
 }
-
+.hp-input-group { text-align: center; flex: 1; }
+.hp-input-group input {
+    text-align: center; font-size: 1.5rem; font-weight: bold;
+    background: rgba(0, 0, 0, 0.2); border: none;
+}
 .hp-controls {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: var(--radius);
+    display: flex; justify-content: space-between; padding: 10px;
+    background: rgba(0, 0, 0, 0.2); border-radius: var(--radius);
 }
-
-.temp-hp-box,
-.hp-temp-row {
-    margin-top: 15px;
-    text-align: right;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.temp-hp-box, .hp-temp-row {
+    margin-top: 15px; text-align: right; display: flex; align-items: center; gap: 10px;
 }
+.temp-hp-box input { width: 60px; text-align: center; }
 
-.temp-hp-box input {
-    width: 60px;
-    text-align: center;
-    display: inline-block;
-}
-
-/* Testes de Morte e Exaustão */
-.vitality-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-.death-saves-box {
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px dashed #cf6679;
-    border-radius: 6px;
-}
-
-.death-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    margin-bottom: 4px;
-}
-
-.death-row .checks {
-    display: flex;
-    gap: 5px;
-}
-
+/* Morte e Exaustão */
+.vitality-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+.death-saves-box { margin-top: 10px; padding: 10px; border: 1px dashed #cf6679; border-radius: 6px; }
+.death-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 4px; }
+.death-row .checks { display: flex; gap: 5px; }
 .death-row input[type="checkbox"] {
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 2px solid #555;
-    border-radius: 50%;
-    cursor: pointer;
+    appearance: none; width: 18px; height: 18px; border: 2px solid #555;
+    border-radius: 50%; cursor: pointer;
 }
+.death-row input[type="checkbox"]:checked { background: var(--text-main); border-color: var(--text-main); }
+#death-f1:checked, #death-f2:checked, #death-f3:checked { background: #cf6679; border-color: #cf6679; }
+#death-s1:checked, #death-s2:checked, #death-s3:checked { background: #4caf50; border-color: #4caf50; }
 
-.death-row input[type="checkbox"]:checked {
-    background: var(--text-main);
-    border-color: var(--text-main);
-}
-
-#death-f1:checked,
-#death-f2:checked,
-#death-f3:checked {
-    background: #cf6679;
-    border-color: #0c0c0c;
-}
-
-#death-s1:checked,
-#death-s2:checked,
-#death-s3:checked {
-    background: #4caf50;
-    border-color: #4caf50;
-}
-
-.exhaustion-box {
-    text-align: center;
-}
-
-.exhaustion-control {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin: 5px 0;
-}
-
-#exhaustion-val {
-    font-size: 1.2rem;
-    font-weight: bold;
-    width: 20px;
-}
+.exhaustion-box { text-align: center; }
+.exhaustion-control { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 5px 0; }
+#exhaustion-val { font-size: 1.2rem; font-weight: bold; width: 20px; }
 
 /* ========================================
-   12. ESPAÇOS DE MAGIA
+   12. ESPAÇOS DE MAGIA (VERTICAL)
    ======================================== */
 
-.spell-slots-card {
-    border-top: 3px solid #bb86fc;
+.spells-layout {
+    display: grid; grid-template-columns: 110px 1fr; gap: 15px; align-items: start;
 }
+.spell-sidebar { position: sticky; top: 10px; z-index: 10; }
+.spell-slots-card { border-top: 3px solid #bb86fc; padding: 10px; }
+.magic-dashboard-vertical { display: flex; flex-direction: column; gap: 8px; }
 
-.magic-dashboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-    gap: 10px;
-    padding-top: 5px;
+.magic-chip-vertical {
+    display: flex; align-items: center; background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+    height: 30px; transition: border-color 0.2s;
 }
-
-.magic-chip {
-    display: flex;
-    align-items: stretch;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-    height: 36px;
-    transition: border-color 0.2s;
-}
-
-.magic-chip:hover {
-    border-color: #bb86fc;
-}
+.magic-chip-vertical:hover { border-color: #bb86fc; }
 
 .magic-level {
-    background: #2a2a2a;
-    color: #bb86fc;
-    font-weight: bold;
-    font-size: 0.9rem;
-    width: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid var(--border);
+    background: #2a2a2a; color: #bb86fc; font-weight: bold; font-size: 0.8rem;
+    width: 25px; height: 100%; display: flex; align-items: center; justify-content: center;
+    border-right: 1px solid var(--border); flex-shrink: 0;
 }
-
-.magic-val {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    padding: 0 5px;
+.magic-val-v {
+    flex: 1; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; gap: 1px;
 }
-
-.magic-val input {
-    background: transparent;
-    border: none;
-    padding: 0;
-    text-align: center;
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.1rem;
-    width: 25px;
-    appearance: textfield;
-    -moz-appearance: textfield;
+.magic-val-v input {
+    background: transparent; border: none; padding: 0; text-align: center;
+    color: #fff; font-weight: bold; font-size: 1rem; width: 20px;
+    appearance: textfield; -moz-appearance: textfield;
 }
-
-.magic-val input::-webkit-outer-spin-button,
-.magic-val input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.magic-val input:focus {
-    color: #bb86fc;
-}
-
-.magic-val span {
-    color: var(--text-muted);
-    font-size: 1rem;
-    margin-top: -2px;
-}
-
-.pact-chip .magic-level {
-    background: #3a2a4a;
-    color: #fff;
-}
+.magic-val-v input:focus { color: #bb86fc; }
+.magic-val-v span { color: #666; font-size: 0.8rem; }
+.magic-val-v input::-webkit-outer-spin-button, .magic-val-v input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.pact-chip .magic-level { background: #3a2a4a; color: #fff; }
 
 /* ========================================
-   13. INVENTÁRIO E ITENS DINÂMICOS
+   13. INVENTÁRIO E LISTAS
    ======================================== */
 
 .dynamic-item {
-    display: flex;
-    gap: 8px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    align-items: flex-start;
+    display: flex; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); align-items: flex-start;
 }
-
 .inventory-header {
-    display: flex;
-    font-weight: bold;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--border);
+    display: flex; font-weight: bold; font-size: 0.8rem; color: var(--text-muted);
+    padding-bottom: 5px; border-bottom: 1px solid var(--border);
 }
+.qty-col { width: 50px; text-align: center; }
+.name-col { flex: 1; }
+.action-col { width: 30px; }
 
-.qty-col {
-    width: 50px;
-    text-align: center;
-}
-
-.name-col {
-    flex: 1;
-}
-
-.action-col {
-    width: 30px;
-}
-
-/* ========================================
-   14. FILTROS E BUSCA
-   ======================================== */
-
+/* Filtros */
 .filter-toolbar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: var(--radius);
+    display: flex; gap: 10px; margin-bottom: 15px; padding: 10px;
+    background: rgba(0, 0, 0, 0.2); border-radius: var(--radius);
 }
 
+/* Tags */
+.tags-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-item {
+    background: #333; color: var(--text-main); font-size: 0.85rem; padding: 2px 8px;
+    border-radius: 4px; border: 1px solid var(--border); display: flex; align-items: center; gap: 5px;
+}
+.tag-val { color: var(--accent); font-weight: bold; }
+
 /* ========================================
-   15. MODAIS
+   14. MODAIS
    ======================================== */
 
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 1;
-    transition: opacity 0.2s;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center;
+    align-items: center; z-index: 1000; opacity: 1; transition: opacity 0.2s;
 }
-
-.modal-overlay.hidden {
-    display: none !important;
-    opacity: 0;
-}
-
+.modal-overlay.hidden { display: none !important; opacity: 0; }
 .modal-content {
-    background: var(--bg-card);
-    border: 1px solid var(--accent);
-    width: 90%;
-    max-width: 500px;
-    max-height: 80vh;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    background: var(--bg-card); border: 1px solid var(--accent); width: 90%;
+    max-width: 500px; max-height: 80vh; border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; overflow: hidden;
 }
-
 .modal-header {
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 15px; background: rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center;
 }
-
-.modal-header h3 {
-    margin: 0;
-    color: var(--accent);
-    border: none;
-}
-
-.modal-body {
-    padding: 15px;
-    overflow-y: auto;
-}
-
-.modal-footer {
-    padding: 10px 15px;
-    text-align: right;
-    border-top: 1px solid var(--border);
-}
-
+.modal-header h3 { margin: 0; color: var(--accent); border: none; }
+.modal-body { padding: 15px; overflow-y: auto; }
+.modal-footer { padding: 10px 15px; text-align: right; border-top: 1px solid var(--border); }
 .modal-subtitle {
-    margin: 15px 0 10px 0;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 5px;
+    margin: 15px 0 10px 0; color: var(--text-muted); font-size: 0.85rem;
+    text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 5px;
 }
-
-.modal-subtitle:first-child {
-    margin-top: 0;
-}
-
-.config-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.config-row label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    flex: 1;
-}
-
-.config-row input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-    accent-color: var(--accent);
-}
-
-.config-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 10px;
-}
-
-.config-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
-.config-item input {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--accent);
-}
+.config-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+.config-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.config-item { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; }
+.config-item input, .config-row input[type="checkbox"] { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); }
 
 /* ========================================
-   16. TAGS
-   ======================================== */
-
-.tags-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.tag-item {
-    background: #333;
-    color: var(--text-main);
-    font-size: 0.85rem;
-    padding: 2px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.tag-val {
-    color: var(--accent);
-    font-weight: bold;
-}
-
-/* ========================================
-   17. MODO LEITURA
+   15. MODO LEITURA
    ======================================== */
 
 .mode-switch-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 5px 15px;
-    border-radius: 20px;
+    display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, 0.3); padding: 5px 15px; border-radius: 20px;
 }
-
-.mode-label {
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: var(--text-muted);
-}
-
-.separator-vertical {
-    width: 1px;
-    height: 24px;
-    background: var(--border);
-    margin: 0 10px;
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 22px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
+.mode-label { font-size: 0.85rem; font-weight: bold; color: var(--text-muted); }
+.separator-vertical { width: 1px; height: 24px; background: var(--border); margin: 0 10px; }
+.switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+.switch input { opacity: 0; width: 0; height: 0; }
 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #555;
-    transition: .4s;
-    border-radius: 34px;
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #555; transition: .4s; border-radius: 34px;
 }
-
 .slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
+    position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+    background-color: white; transition: .4s; border-radius: 50%;
 }
+input:checked + .slider { background-color: var(--accent); }
+input:checked + .slider:before { transform: translateX(18px); }
 
-input:checked + .slider {
-    background-color: var(--accent);
-}
-
-input:checked + .slider:before {
-    transform: translateX(18px);
-}
-
-/* Estilos aplicados no modo leitura */
+/* Esconder elementos em modo leitura */
 .read-mode .btn,
 .read-mode .file-actions,
 .read-mode .action-col,
 .read-mode .hp-controls,
-.read-mode .filter-toolbar {
-    display: none !important;
+.read-mode .filter-toolbar { display: none !important; }
+
+/* EXCEÇÕES PARA MODO LEITURA (Botões que ficam) */
+.read-mode .btn-ingame,
+.read-mode #btnLongRest {
+    display: inline-flex !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+}
+.read-mode #btnLongRest {
+    border-color: var(--accent); color: var(--accent);
 }
 
-.read-mode input,
-.read-mode textarea {
-    background: transparent;
-    border: none;
-    color: var(--text-main);
-    padding: 0;
-    resize: none;
-    pointer-events: none;
+.read-mode input, .read-mode textarea {
+    background: transparent; border: none; color: var(--text-main); padding: 0; resize: none; pointer-events: none;
+}
+.read-mode input[type="number"] { -moz-appearance: textfield; appearance: textfield; text-align: center; }
+.read-mode input[type="number"]::-webkit-outer-spin-button, .read-mode input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.read-mode textarea { font-size: 1rem; line-height: 1.6; color: #fff; overflow: hidden; }
+.read-mode .dynamic-item { border-bottom: 1px dashed #333; margin-bottom: 15px; }
+.read-mode .inventory-header { border-bottom: 2px solid var(--accent); }
+.read-mode input[style*="font-weight:bold"] { color: var(--accent); font-size: 1.1em; margin-bottom: 5px; }
+.read-mode input[type="checkbox"] { pointer-events: none; opacity: 0.7; }
+.read-mode .card { border: none; background: rgba(255,255,255,0.02); }
+
+/* ========================================
+   16. MOBILE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .grid-attrs { grid-template-columns: repeat(3, 1fr); }
+    .header-actions { width: 100%; } .header-actions button { flex: 1; }
+    .spells-layout { grid-template-columns: 1fr; }
+    .spell-sidebar { position: static; }
+    .magic-dashboard-vertical { display: grid; grid-template-columns: repeat(3, 1fr); }
 }
 
-.read-mode input[type="number"] {
-    -moz-appearance: textfield;
-    appearance: textfield;
-    text-align: center;
-}
-
-.read-mode input[type="number"]::-webkit-outer-spin-button,
-.read-mode input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.read-mode textarea {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #fff;
-    overflow: hidden;
-}
-
-.read-mode .dynamic-item {
-    border-bottom: 1px dashed #333;
+/* --- GRUPOS DE MAGIA (Visual por Círculo) --- */
+.spell-group {
     margin-bottom: 15px;
 }
 
-.read-mode .inventory-header {
-    border-bottom: 2px solid var(--accent);
-}
-
-.read-mode input[style*="font-weight:bold"] {
+.spell-group h4 {
+    margin: 0 0 5px 0;
+    padding: 5px;
+    background: rgba(187, 134, 252, 0.1); /* Roxo bem suave */
+    border-left: 3px solid var(--accent);
     color: var(--accent);
-    font-size: 1.1em;
-    margin-bottom: 5px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.read-mode input[type="checkbox"] {
-    pointer-events: none;
-    opacity: 0.7;
+.spell-group .sg-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-height: 5px; /* Garante que a área exista mesmo vazia */
 }
 
-/* --- EXCEÇÃO PARA O MODO LEITURA --- */
-
-/* Força o botão de Descanso a aparecer mesmo no modo leitura */
-.read-mode #btnLongRest {
-    display: inline-block !important;
-    pointer-events: auto; /* Permite o clique */
-    cursor: pointer;
-    border-color: var(--accent);
-    color: var(--accent);
-    opacity: 1;
+/* Oculta grupos vazios para limpar a visão (Opcional - Remova se quiser ver todos os headers sempre) */
+.spell-group:empty {
+    display: none;
 }
 
-/* Efeito hover no modo leitura */
-.read-mode #btnLongRest:hover {
-    background: rgba(187, 134, 252, 0.1);
+/* --- PERMITIR BUSCA E FILTRO NO MODO LEITURA --- */
+
+/* Mostra a toolbar */
+.read-mode .filter-toolbar {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+/* Permite clicar e digitar nos inputs dentro da toolbar */
+.read-mode .filter-toolbar input,
+.read-mode .filter-toolbar select {
+    pointer-events: auto !important;
+    background: rgba(0,0,0,0.5); /* Um pouco mais escuro para destacar que é editável */
+    border-color: var(--border);
 }
