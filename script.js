@@ -573,3 +573,31 @@ function useSlot(level) {
     }
 }
 window.useSlot = useSlot;
+
+/* --- CALCULADORA DE VIDA --- */
+
+function applyCustomHP(type) {
+    const input = document.getElementById('hp-mod-input');
+    if (!input) return;
+
+    // Pega o valor digitado (se vazio, assume 0)
+    let val = parseInt(input.value);
+    
+    if (!val || val <= 0) {
+        alert("Digite um valor válido.");
+        return;
+    }
+
+    // Se for dano, inverte o sinal
+    if (type === 'dmg') {
+        val = -val;
+    }
+
+    // Usa a função existente modHP para aplicar
+    modHP(val);
+
+    // Limpa o campo para o próximo uso
+    input.value = '';
+}
+// Exporta para HTML
+window.applyCustomHP = applyCustomHP;
