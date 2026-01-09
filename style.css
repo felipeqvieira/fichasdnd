@@ -343,54 +343,213 @@ header {
 }
 
 /* ========================================
-   11. VIDA E VITALIDADE
+   11. VIDA E VITALIDADE (DESIGN HUD)
    ======================================== */
 
-.hp-container { margin-bottom: 15px; }
-.hp-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
-.hp-inputs input {
-    width: 60px; text-align: right; border: none; background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px; padding: 2px 5px; color: #fff;
+.hp-hud-card {
+    background: linear-gradient(145deg, #1e1e1e, #252525);
+    border: 1px solid #444;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
-.hp-track, .health-bar-bg {
-    width: 100%; height: 10px; background: #333; border-radius: 5px;
-    overflow: hidden; margin: 10px 0;
-}
-.hp-fill, .health-bar-fill {
-    height: 100%; background: #4caf50; width: 100%; transition: width 0.3s, background 0.3s;
-}
-.health-bar-fill { background: var(--danger); } 
 
-.hp-wrapper {
-    display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;
+/* Ajuste no container para ficar mais compacto */
+.hp-display-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 10px;
 }
-.hp-input-group { text-align: center; flex: 1; }
-.hp-input-group input {
-    text-align: center; font-size: 1.5rem; font-weight: bold;
-    background: rgba(0, 0, 0, 0.2); border: none;
-}
-.hp-controls {
-    display: flex; justify-content: space-between; padding: 10px;
-    background: rgba(0, 0, 0, 0.2); border-radius: var(--radius);
-}
-.temp-hp-box, .hp-temp-row {
-    margin-top: 15px; text-align: right; display: flex; align-items: center; gap: 10px;
-}
-.temp-hp-box input { width: 60px; text-align: center; }
 
-/* Morte e Exaustão */
+.hp-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hp-unit input {
+    width: 60px; /* Reduzi a largura */
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.8rem; /* Reduzi de 3rem para 1.8rem */
+    font-weight: 800;
+    line-height: 1;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    appearance: textfield;        /* Padrão */
+    -moz-appearance: textfield;   /* Firefox */
+}
+
+.hp-unit label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+.hp-divider {
+    font-size: 1.8rem; /* Ajustado para acompanhar os números */
+    color: #444;
+    font-weight: 100;
+    margin-bottom: 5px; /* Ajuste de alinhamento */
+}
+
+/* --- 2. Barra de Vida --- */
+.hp-bar-container {
+    width: 100%;
+    height: 12px;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #333;
+    margin-bottom: 20px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.hp-bar-fill {
+    height: 100%;
+    width: 100%;
+    background: #4caf50; /* Verde (JS muda cor) */
+    transition: width 0.4s ease-out, background-color 0.4s;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); /* Brilho interno */
+}
+
+/* --- 3. Barra de Ação (Dano/Input/Cura) --- */
+.hp-action-bar {
+    display: flex;
+    gap: 0; /* Botões colados */
+    background: #333;
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 15px;
+    border: 1px solid #444;
+}
+
+.btn-action {
+    flex: 1;
+    border: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 10px 0;
+    color: #fff;
+    transition: 0.2s;
+    text-transform: uppercase;
+}
+
+.btn-dmg {
+    background: #cf6679;
+    border-radius: 6px 0 0 6px;
+}
+.btn-dmg:hover { background: #ff5f7e; }
+
+.btn-heal {
+    background: #4caf50;
+    border-radius: 0 6px 6px 0;
+}
+.btn-heal:hover { background: #66bb6a; }
+
+.hp-action-input {
+    width: 70px !important;
+    text-align: center;
+    background: #222;
+    border: none;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    z-index: 1; /* Fica acima das bordas */
+    appearance: textfield;        /* Padrão */
+    -moz-appearance: textfield;   /* Firefox */
+}
+.hp-action-input:focus {
+    background: #000;
+    outline: 2px solid var(--accent);
+}
+
+/* --- 4. Rodapé e Ajustes Finos --- */
+.hp-footer-tools {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-fine {
+    background: transparent;
+    border: 1px solid #444;
+    color: var(--text-muted);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-fine:hover {
+    border-color: var(--text-main);
+    color: #fff;
+    background: rgba(255,255,255,0.05);
+}
+
+.btn-full {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+.btn-full:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+.hp-temp-mini {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    border-top: 1px solid #333;
+    padding-top: 10px;
+}
+.hp-temp-mini input {
+    width: 60px;
+    text-align: center;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid #444;
+    padding: 2px;
+}
+
+/* --- MODO LEITURA (Regras de Ouro) --- */
+.read-mode .hp-display-container input { pointer-events: none; } /* Trava edição direta da vida */
+
+.read-mode .hp-action-bar, 
+.read-mode .hp-footer-tools {
+    display: flex !important; /* Força aparecer */
+}
+
+.read-mode .hp-action-input,
+.read-mode .btn-action,
+.read-mode .btn-fine,
+.read-mode #hp-temp {
+    pointer-events: auto !important; /* Permite clicar */
+    opacity: 1 !important;
+}
+
+/* Estilos de Morte/Exaustão (Mantidos do anterior para compatibilidade) */
 .vitality-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-.death-saves-box { margin-top: 10px; padding: 10px; border: 1px dashed #cf6679; border-radius: 6px; }
-.death-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 4px; }
-.death-row .checks { display: flex; gap: 5px; }
-.death-row input[type="checkbox"] {
-    appearance: none; width: 18px; height: 18px; border: 2px solid #555;
-    border-radius: 50%; cursor: pointer;
-}
+.death-saves-box { padding: 10px; background: rgba(207, 102, 121, 0.08); border-radius: var(--radius); }
+.death-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; margin-bottom: 5px; }
+.death-row .checks { display: flex; gap: 8px; }
+.death-row input[type="checkbox"] { appearance: none; width: 18px; height: 18px; border: 2px solid #555; border-radius: 50%; cursor: pointer; }
 .death-row input[type="checkbox"]:checked { background: var(--text-main); border-color: var(--text-main); }
-#death-f1:checked, #death-f2:checked, #death-f3:checked { background: #cf6679; border-color: #cf6679; }
-#death-s1:checked, #death-s2:checked, #death-s3:checked { background: #4caf50; border-color: #4caf50; }
-
+#death-f1:checked, #death-f2:checked, #death-f3:checked { background: #cf6679; border-color: #cf6679; box-shadow: 0 0 5px #cf6679; }
+#death-s1:checked, #death-s2:checked, #death-s3:checked { background: #4caf50; border-color: #4caf50; box-shadow: 0 0 5px #4caf50; }
 .exhaustion-box { text-align: center; }
 .exhaustion-control { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 5px 0; }
 #exhaustion-val { font-size: 1.2rem; font-weight: bold; width: 20px; }
@@ -597,4 +756,75 @@ input:checked + .slider:before { transform: translateX(18px); }
     pointer-events: auto !important;
     background: rgba(0,0,0,0.5); /* Um pouco mais escuro para destacar que é editável */
     border-color: var(--border);
+}
+
+/* --- PAINEL DE CONTROLE DE VIDA (COMBATE) --- */
+
+.hp-controls-wrapper {
+    background: rgba(0,0,0,0.2);
+    border-radius: var(--radius);
+    padding: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 15px;
+}
+
+.hp-quick-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed rgba(255,255,255,0.1);
+}
+
+.hp-quick-actions .btn-group {
+    display: flex;
+    gap: 5px;
+}
+
+.hp-calculator {
+    display: flex;
+    gap: 5px;
+    align-items: stretch; /* Estica altura dos botões */
+}
+
+/* O Input de Dano/Cura */
+.hp-mod-input {
+    width: 60px !important; /* Força largura */
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    border: 1px solid var(--border);
+}
+
+.hp-mod-input:focus {
+    border-color: var(--accent);
+}
+
+.hp-calculator .btn {
+    flex: 1; /* Botões ocupam espaço igual */
+}
+
+/* --- HABILITAR NO MODO LEITURA --- */
+
+/* 1. Torna o container visível */
+.read-mode .hp-controls-wrapper {
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* 2. Permite clicar nos botões dentro dele */
+.read-mode .hp-controls-wrapper button {
+    display: inline-block !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+}
+
+/* 3. Permite digitar no input de quantidade */
+.read-mode .hp-controls-wrapper input {
+    pointer-events: auto !important;
+    background: rgba(0,0,0,0.4) !important; /* Mantém fundo escuro */
 }
