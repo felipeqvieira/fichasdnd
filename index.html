@@ -293,77 +293,106 @@
     </section>
 
     <section id="spells" class="tab-content hidden">
-        <div class="card spell-slots-card">
-            <div class="card-header-slim">
-                <h3>Espaços de Magia (Slots)</h3>
-            </div>
+        <div class="spells-layout">
             
-            <div class="magic-dashboard">
-                <div class="magic-chip">
-                    <span class="magic-level">1º</span>
-                    <div class="magic-val"><input type="number" id="slot-1-curr" placeholder="0"><span>/</span><input type="number" id="slot-1-max" placeholder="0"></div>
+            <div class="spell-sidebar">
+                <div class="card spell-slots-card">
+                    <div class="card-header-slim" style="justify-content:center">
+                        <h3 style="font-size:0.9rem">Slots</h3>
+                    </div>
+                    
+                    <div class="magic-dashboard-vertical">
+                        <div class="magic-chip-vertical">
+                            <span class="magic-level">1º</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot(1)">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-1-curr" placeholder="0"><span>/</span><input type="number" id="slot-1-max" placeholder="0"></div>
+                        </div>
+                        <div class="magic-chip-vertical">
+                            <span class="magic-level">2º</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot(2)">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-2-curr" placeholder="0"><span>/</span><input type="number" id="slot-2-max" placeholder="0"></div>
+                        </div>
+                        <div class="magic-chip-vertical">
+                            <span class="magic-level">3º</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot(3)">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-3-curr" placeholder="0"><span>/</span><input type="number" id="slot-3-max" placeholder="0"></div>
+                        </div>
+                        <div class="magic-chip-vertical">
+                            <span class="magic-level">4º</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot(4)">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-4-curr" placeholder="0"><span>/</span><input type="number" id="slot-4-max" placeholder="0"></div>
+                        </div>
+                        <div class="magic-chip-vertical">
+                            <span class="magic-level">5º</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot(5)">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-5-curr" placeholder="0"><span>/</span><input type="number" id="slot-5-max" placeholder="0"></div>
+                        </div>
+                        <div class="magic-chip-vertical">
+                            <span class="magic-level">6º</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot(6)">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-6-curr" placeholder="0"><span>/</span><input type="number" id="slot-6-max" placeholder="0"></div>
+                        </div>
+                        <div class="magic-chip-vertical">
+                            <span class="magic-level">7º</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot(7)">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-7-curr" placeholder="0"><span>/</span><input type="number" id="slot-7-max" placeholder="0"></div>
+                        </div>
+                        <div class="magic-chip-vertical">
+                            <span class="magic-level">8º</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot(8)">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-8-curr" placeholder="0"><span>/</span><input type="number" id="slot-8-max" placeholder="0"></div>
+                        </div>
+                        <div class="magic-chip-vertical">
+                            <span class="magic-level">9º</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot(9)">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-9-curr" placeholder="0"><span>/</span><input type="number" id="slot-9-max" placeholder="0"></div>
+                        </div>
+                        <div class="magic-chip-vertical pact-chip">
+                            <span class="magic-level">P</span>
+                            <button class="btn-ingame btn-use-magic-v" onclick="useSlot('pact')">▼</button>
+                            <div class="magic-val-v"><input type="number" id="slot-pact-curr" placeholder="0"><span>/</span><input type="number" id="slot-pact-max" placeholder="0"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="magic-chip">
-                    <span class="magic-level">2º</span>
-                    <div class="magic-val"><input type="number" id="slot-2-curr" placeholder="0"><span>/</span><input type="number" id="slot-2-max" placeholder="0"></div>
-                </div>
-                <div class="magic-chip">
-                    <span class="magic-level">3º</span>
-                    <div class="magic-val"><input type="number" id="slot-3-curr" placeholder="0"><span>/</span><input type="number" id="slot-3-max" placeholder="0"></div>
-                </div>
-                <div class="magic-chip">
-                    <span class="magic-level">4º</span>
-                    <div class="magic-val"><input type="number" id="slot-4-curr" placeholder="0"><span>/</span><input type="number" id="slot-4-max" placeholder="0"></div>
-                </div>
-                <div class="magic-chip">
-                    <span class="magic-level">5º</span>
-                    <div class="magic-val"><input type="number" id="slot-5-curr" placeholder="0"><span>/</span><input type="number" id="slot-5-max" placeholder="0"></div>
-                </div>
+            </div>
 
-                <div class="magic-chip">
-                    <span class="magic-level">6º</span>
-                    <div class="magic-val"><input type="number" id="slot-6-curr" placeholder="0"><span>/</span><input type="number" id="slot-6-max" placeholder="0"></div>
-                </div>
-                <div class="magic-chip">
-                    <span class="magic-level">7º</span>
-                    <div class="magic-val"><input type="number" id="slot-7-curr" placeholder="0"><span>/</span><input type="number" id="slot-7-max" placeholder="0"></div>
-                </div>
-                <div class="magic-chip">
-                    <span class="magic-level">8º</span>
-                    <div class="magic-val"><input type="number" id="slot-8-curr" placeholder="0"><span>/</span><input type="number" id="slot-8-max" placeholder="0"></div>
-                </div>
-                <div class="magic-chip">
-                    <span class="magic-level">9º</span>
-                    <div class="magic-val"><input type="number" id="slot-9-curr" placeholder="0"><span>/</span><input type="number" id="slot-9-max" placeholder="0"></div>
-                </div>
-                <div class="magic-chip pact-chip">
-                    <span class="magic-level">P</span> <div class="magic-val"><input type="number" id="slot-pact-curr" placeholder="0"><span>/</span><input type="number" id="slot-pact-max" placeholder="0"></div>
+            <div class="spell-list-area">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Grimório</h3>
+                        <button class="btn btn-small" id="btnAddSpell">+ Magia</button>
+                    </div>
+                    <div class="filter-toolbar">
+                        <input type="text" id="spellSearch" placeholder="🔍 Buscar..." class="search-input">
+                        <select id="spellFilter" class="filter-select">
+                            <option value="all">Todos</option>
+                            <option value="Truque">Truques</option>
+                            <option value="1º Círculo">1º Círculo</option>
+                            <option value="2º Círculo">2º Círculo</option>
+                            <option value="3º Círculo">3º Círculo</option>
+                            <option value="4º Círculo">4º Círculo</option>
+                            <option value="5º Círculo">5º Círculo</option>
+                            <option value="6º Círculo">6º Círculo</option>
+                            <option value="7º Círculo">7º Círculo</option>
+                            <option value="8º Círculo">8º Círculo</option>
+                            <option value="9º Círculo">9º Círculo</option>
+                        </select>
+                    </div>
+                    <div id="spells-list" class="dynamic-list">
+                        <div class="spell-group" id="sg-0"><h4>Truques (0)</h4><div class="sg-content"></div></div>
+                        <div class="spell-group" id="sg-1"><h4>1º Círculo</h4><div class="sg-content"></div></div>
+                        <div class="spell-group" id="sg-2"><h4>2º Círculo</h4><div class="sg-content"></div></div>
+                        <div class="spell-group" id="sg-3"><h4>3º Círculo</h4><div class="sg-content"></div></div>
+                        <div class="spell-group" id="sg-4"><h4>4º Círculo</h4><div class="sg-content"></div></div>
+                        <div class="spell-group" id="sg-5"><h4>5º Círculo</h4><div class="sg-content"></div></div>
+                        <div class="spell-group" id="sg-6"><h4>6º Círculo</h4><div class="sg-content"></div></div>
+                        <div class="spell-group" id="sg-7"><h4>7º Círculo</h4><div class="sg-content"></div></div>
+                        <div class="spell-group" id="sg-8"><h4>8º Círculo</h4><div class="sg-content"></div></div>
+                        <div class="spell-group" id="sg-9"><h4>9º Círculo</h4><div class="sg-content"></div></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h3>Grimório</h3>
-                <button class="btn btn-small" id="btnAddSpell">+ Magia</button>
-            </div>
-            <div class="filter-toolbar">
-                <input type="text" id="spellSearch" placeholder="🔍 Buscar..." class="search-input">
-                <select id="spellFilter" class="filter-select">
-                    <option value="all">Todos</option>
-                    <option value="Truque">Truques</option>
-                    <option value="1º Círculo">1º Círculo</option>
-                    <option value="2º Círculo">2º Círculo</option>
-                    <option value="3º Círculo">3º Círculo</option>
-                    <option value="4º Círculo">4º Círculo</option>
-                    <option value="5º Círculo">5º Círculo</option>
-                    <option value="6º Círculo">6º Círculo</option>
-                    <option value="7º Círculo">7º Círculo</option>
-                    <option value="8º Círculo">8º Círculo</option>
-                    <option value="9º Círculo">9º Círculo</option>
-                </select>
-            </div>
-            <div id="spells-list" class="dynamic-list"></div>
         </div>
     </section>
 
